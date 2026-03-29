@@ -67,10 +67,15 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
   useEffect(() => {
     const fetchAll = async () => {
       setLoading(true);
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setLoading(false);
+        return;
+      }
       await Promise.all([
-        fetchTransactions(),
-        fetchTransfers(),
-        fetchStartingBalance()
+        fetchTransactions(user.id),
+        fetchTransfers(user.id),
+        fetchStartingBalance(user.id)
       ]);
     };
     fetchAll();
@@ -80,16 +85,20 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
     setFilteredTransactions(transactions);
   }, [transactions]);
 
-  const fetchStartingBalance = async () => {
+  const fetchStartingBalance = async (userId?: string) => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      let uid = userId;
+      if (!uid) {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+        uid = user.id;
+      }
       const startDate = format(selectedMonth, 'yyyy-MM-01');
       const minAllowedDateStr = format(minAllowedDate, 'yyyy-MM-01');
       const { data, error } = await supabase
         .from('starting_balances')
         .select('amount')
-        .eq('user_id', user.id)
+        .eq('user_id', uid)
         .eq('month', startDate)
         .gte('month', minAllowedDateStr)
         .maybeSingle();
@@ -101,17 +110,21 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
     }
   };
 
-  const fetchTransactions = async () => {
+  const fetchTransactions = async (userId?: string) => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      let uid = userId;
+      if (!uid) {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+        uid = user.id;
+      }
       const startOfMonth = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), 1);
       const endOfMonth = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, 0);
       const minAllowedDateStr = format(minAllowedDate, 'yyyy-MM-dd');
       const { data, error } = await supabase
         .from('transactions')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', uid)
         .gte('date', format(startOfMonth, 'yyyy-MM-dd'))
         .lte('date', format(endOfMonth, 'yyyy-MM-dd'))
         .gte('date', minAllowedDateStr)
@@ -126,17 +139,21 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
     }
   };
 
-  const fetchTransfers = async () => {
+  const fetchTransfers = async (userId?: string) => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      let uid = userId;
+      if (!uid) {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+        uid = user.id;
+      }
       const startOfMonth = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), 1);
       const endOfMonth = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, 0);
       const minAllowedDateStr = format(minAllowedDate, 'yyyy-MM-dd');
       const { data, error } = await supabase
         .from('internal_transfers')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', uid)
         .gte('date', format(startOfMonth, 'yyyy-MM-dd'))
         .lte('date', format(endOfMonth, 'yyyy-MM-dd'))
         .gte('date', minAllowedDateStr)

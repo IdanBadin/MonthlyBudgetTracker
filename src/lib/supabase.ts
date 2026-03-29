@@ -11,13 +11,27 @@ if (!supabaseUrl || !supabaseKey) {
 const MAX_RETRIES = 3;
 const INITIAL_RETRY_DELAY = 1000; // 1 second
 
-const retryOperation = async (operation: () => Promise<any>, retries = MAX_RETRIES, delay = INITIAL_RETRY_DELAY) => {
+const retryOperation = async (
+  operation: () => Promise<any>,
+  retries = MAX_RETRIES,
+  delay = INITIAL_RETRY_DELAY,
+  signal?: AbortSignal
+) => {
   try {
+    if (signal?.aborted) throw new Error('Operation aborted');
     return await operation();
   } catch (error) {
-    if (retries > 0) {
-      await new Promise(resolve => setTimeout(resolve, delay));
-      return retryOperation(operation, retries - 1, delay * 2);
+    if (retries > 0 && !signal?.aborted) {
+      await new Promise<void>((resolve, reject) => {
+        const timeoutId = setTimeout(resolve, delay);
+        if (signal) {
+          signal.addEventListener('abort', () => {
+            clearTimeout(timeoutId);
+            reject(new Error('Operation aborted'));
+          }, { once: true });
+        }
+      });
+      return retryOperation(operation, retries - 1, delay * 2, signal);
     }
     throw error;
   }

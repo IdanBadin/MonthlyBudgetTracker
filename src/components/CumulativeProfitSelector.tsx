@@ -79,25 +79,38 @@ export function CumulativeProfitSelector({ profile }: CumulativeProfitSelectorPr
 
       if (currentController.signal.aborted) return;
 
-      const monthDataPromises = selectedMonths.map(async (month) => {
-        const startDate = startOfMonth(month);
-        const endDate = endOfMonth(month);
+      // Sort selected months to get date range
+      const sortedMonths = [...selectedMonths].sort((a, b) => a.getTime() - b.getTime());
+      const rangeStart = startOfMonth(sortedMonths[0]);
+      const rangeEnd = endOfMonth(sortedMonths[sortedMonths.length - 1]);
 
-        const { data: transactions, error } = await supabase
-          .from('transactions')
-          .select('*')
-          .eq('user_id', user.id)
-          .gte('date', format(startDate, 'yyyy-MM-dd'))
-          .lte('date', format(endDate, 'yyyy-MM-dd'))
-          .order('date', { ascending: true });
+      // SINGLE query for ALL months
+      const { data: transactions, error } = await supabase
+        .from('transactions')
+        .select('*')
+        .eq('user_id', user.id)
+        .gte('date', format(rangeStart, 'yyyy-MM-dd'))
+        .lte('date', format(rangeEnd, 'yyyy-MM-dd'))
+        .order('date', { ascending: true });
 
-        if (error) throw error;
+      if (error) throw error;
+      if (currentController.signal.aborted) return;
 
-        const income = (transactions || [])
+      // Group transactions by month in memory (fast)
+      const data = selectedMonths.map((month) => {
+        const monthStart = startOfMonth(month);
+        const monthEnd = endOfMonth(month);
+
+        const monthTransactions = (transactions || []).filter(t => {
+          const tDate = new Date(t.date);
+          return tDate >= monthStart && tDate <= monthEnd;
+        });
+
+        const income = monthTransactions
           .filter(t => t.type === 'income')
           .reduce((sum, t) => sum + Number(t.amount), 0);
 
-        const expenses = (transactions || [])
+        const expenses = monthTransactions
           .filter(t => t.type === 'expense')
           .reduce((sum, t) => sum + Number(t.amount), 0);
 
@@ -108,8 +121,6 @@ export function CumulativeProfitSelector({ profile }: CumulativeProfitSelectorPr
           expenses
         };
       });
-
-      const data = await Promise.all(monthDataPromises);
 
       if (currentController.signal.aborted) return;
 

@@ -13,6 +13,9 @@ dist-ssr
 *.local
 .env
 .env.*
+.bolt/
+.claude-flow/
+.claudeignore.md
 
 # Editor directories and files
 .vscode/*

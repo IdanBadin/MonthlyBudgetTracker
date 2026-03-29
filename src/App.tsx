@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Dashboard } from './components/Dashboard';
 import { MonthlyAnalysis } from './components/MonthlyAnalysis';
@@ -56,13 +56,20 @@ function App() {
     return () => subscription.unsubscribe();
   }, [fetchProfile]);
 
+  const userIdRef = useRef<string | null>(null);
+
   useEffect(() => {
-    if (session?.user) {
+    if (session?.user?.id && userIdRef.current !== session.user.id) {
+      userIdRef.current = session.user.id;
       scheduleBackup(session.user.id);
       const backupInterval = setInterval(() => {
-        scheduleBackup(session.user.id);
+        if (userIdRef.current) {
+          scheduleBackup(userIdRef.current);
+        }
       }, 6 * 60 * 60 * 1000);
-      return () => clearInterval(backupInterval);
+      return () => {
+        clearInterval(backupInterval);
+      };
     }
   }, [session?.user?.id]);
 

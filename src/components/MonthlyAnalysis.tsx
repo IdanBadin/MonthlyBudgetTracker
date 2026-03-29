@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { format, getDaysInMonth, subMonths } from 'date-fns';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { ArrowUp, ArrowLeft, TrendingUp, TrendingDown, DollarSign, Calendar, Wallet, LayoutDashboard, BarChart3 } from 'lucide-react';
@@ -94,80 +94,95 @@ export function MonthlyAnalysis({ profile }: MonthlyAnalysisProps) {
     fetchTransactions();
   }, [selectedMonth, minAllowedDate]);
 
-  // Current month calculations
-  const totalIncome = transactions
-    .filter(t => t.type === 'income')
-    .reduce((sum, t) => sum + Number(t.amount), 0);
+  // Memoized financial calculations
+  const {
+    totalIncome, totalExpenses, prevTotalIncome, prevTotalExpenses,
+    incomeChange, expenseChange, savingsRate, prevSavingsRate, savingsRateChange,
+    savingsAmount, prevSavingsAmount, savingsAmountChange,
+    daysInMonth, avgDailyExpense, avgDailyIncome,
+    avgDailyExpenseChange, avgDailyIncomeChange,
+    expenseRatio, daysWithExpenses, expenseFrequency
+  } = useMemo(() => {
+    const totalIncome = transactions
+      .filter(t => t.type === 'income')
+      .reduce((sum, t) => sum + Number(t.amount), 0);
 
-  const totalExpenses = transactions
-    .filter(t => t.type === 'expense')
-    .reduce((sum, t) => sum + Number(t.amount), 0);
-
-  // Previous month calculations
-  const prevTotalIncome = previousMonthTransactions
-    .filter(t => t.type === 'income')
-    .reduce((sum, t) => sum + Number(t.amount), 0);
-
-  const prevTotalExpenses = previousMonthTransactions
-    .filter(t => t.type === 'expense')
-    .reduce((sum, t) => sum + Number(t.amount), 0);
-
-  // Calculate changes
-  const incomeChange = prevTotalIncome > 0
-    ? ((totalIncome - prevTotalIncome) / prevTotalIncome) * 100
-    : 0;
-
-  const expenseChange = prevTotalExpenses > 0
-    ? ((totalExpenses - prevTotalExpenses) / prevTotalExpenses) * 100
-    : 0;
-
-  const savingsRate = totalIncome > 0
-    ? ((totalIncome - totalExpenses) / totalIncome) * 100
-    : 0;
-
-  const prevSavingsRate = prevTotalIncome > 0
-    ? ((prevTotalIncome - prevTotalExpenses) / prevTotalIncome) * 100
-    : 0;
-
-  const savingsRateChange = prevSavingsRate !== 0
-    ? savingsRate - prevSavingsRate
-    : 0;
-
-  // Calculate actual savings amount
-  const savingsAmount = totalIncome - totalExpenses;
-  const prevSavingsAmount = prevTotalIncome - prevTotalExpenses;
-  const savingsAmountChange = prevSavingsAmount !== 0
-    ? ((savingsAmount - prevSavingsAmount) / prevSavingsAmount) * 100
-    : 0;
-
-  const daysInMonth = getDaysInMonth(selectedMonth);
-  const avgDailyExpense = totalExpenses / daysInMonth;
-  const avgDailyIncome = totalIncome / daysInMonth;
-
-  const prevDaysInMonth = getDaysInMonth(new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() - 1, 1));
-  const prevAvgDailyExpense = prevTotalExpenses / prevDaysInMonth;
-  const prevAvgDailyIncome = prevTotalIncome / prevDaysInMonth;
-
-  const avgDailyExpenseChange = prevAvgDailyExpense > 0
-    ? ((avgDailyExpense - prevAvgDailyExpense) / prevAvgDailyExpense) * 100
-    : 0;
-
-  const avgDailyIncomeChange = prevAvgDailyIncome > 0
-    ? ((avgDailyIncome - prevAvgDailyIncome) / prevAvgDailyIncome) * 100
-    : 0;
-
-  const expenseRatio = totalIncome > 0
-    ? (totalExpenses / totalIncome) * 100
-    : 0;
-
-  const daysWithExpenses = new Set(
-    transactions
+    const totalExpenses = transactions
       .filter(t => t.type === 'expense')
-      .map(t => t.date)
-  ).size;
-  const expenseFrequency = (daysWithExpenses / daysInMonth) * 100;
+      .reduce((sum, t) => sum + Number(t.amount), 0);
 
-  const dailyFlowData = transactions.reduce((acc: any[], transaction) => {
+    const prevTotalIncome = previousMonthTransactions
+      .filter(t => t.type === 'income')
+      .reduce((sum, t) => sum + Number(t.amount), 0);
+
+    const prevTotalExpenses = previousMonthTransactions
+      .filter(t => t.type === 'expense')
+      .reduce((sum, t) => sum + Number(t.amount), 0);
+
+    const incomeChange = prevTotalIncome > 0
+      ? ((totalIncome - prevTotalIncome) / prevTotalIncome) * 100
+      : 0;
+
+    const expenseChange = prevTotalExpenses > 0
+      ? ((totalExpenses - prevTotalExpenses) / prevTotalExpenses) * 100
+      : 0;
+
+    const savingsRate = totalIncome > 0
+      ? ((totalIncome - totalExpenses) / totalIncome) * 100
+      : 0;
+
+    const prevSavingsRate = prevTotalIncome > 0
+      ? ((prevTotalIncome - prevTotalExpenses) / prevTotalIncome) * 100
+      : 0;
+
+    const savingsRateChange = prevSavingsRate !== 0
+      ? savingsRate - prevSavingsRate
+      : 0;
+
+    const savingsAmount = totalIncome - totalExpenses;
+    const prevSavingsAmount = prevTotalIncome - prevTotalExpenses;
+    const savingsAmountChange = prevSavingsAmount !== 0
+      ? ((savingsAmount - prevSavingsAmount) / prevSavingsAmount) * 100
+      : 0;
+
+    const daysInMonth = getDaysInMonth(selectedMonth);
+    const avgDailyExpense = totalExpenses / daysInMonth;
+    const avgDailyIncome = totalIncome / daysInMonth;
+
+    const prevDaysInMonth = getDaysInMonth(new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() - 1, 1));
+    const prevAvgDailyExpense = prevTotalExpenses / prevDaysInMonth;
+    const prevAvgDailyIncome = prevTotalIncome / prevDaysInMonth;
+
+    const avgDailyExpenseChange = prevAvgDailyExpense > 0
+      ? ((avgDailyExpense - prevAvgDailyExpense) / prevAvgDailyExpense) * 100
+      : 0;
+
+    const avgDailyIncomeChange = prevAvgDailyIncome > 0
+      ? ((avgDailyIncome - prevAvgDailyIncome) / prevAvgDailyIncome) * 100
+      : 0;
+
+    const expenseRatio = totalIncome > 0
+      ? (totalExpenses / totalIncome) * 100
+      : 0;
+
+    const daysWithExpenses = new Set(
+      transactions
+        .filter(t => t.type === 'expense')
+        .map(t => t.date)
+    ).size;
+    const expenseFrequency = (daysWithExpenses / daysInMonth) * 100;
+
+    return {
+      totalIncome, totalExpenses, prevTotalIncome, prevTotalExpenses,
+      incomeChange, expenseChange, savingsRate, prevSavingsRate, savingsRateChange,
+      savingsAmount, prevSavingsAmount, savingsAmountChange,
+      daysInMonth, avgDailyExpense, avgDailyIncome,
+      avgDailyExpenseChange, avgDailyIncomeChange,
+      expenseRatio, daysWithExpenses, expenseFrequency
+    };
+  }, [transactions, previousMonthTransactions, selectedMonth]);
+
+  const dailyFlowData = useMemo(() => transactions.reduce((acc: any[], transaction) => {
     const date = transaction.date;
     const existingDay = acc.find(d => d.date === format(new Date(date), 'dd/MM'));
 
@@ -186,31 +201,31 @@ export function MonthlyAnalysis({ profile }: MonthlyAnalysisProps) {
     }
 
     return acc;
-  }, []);
+  }, []), [transactions]);
 
-  const categoryData = transactions
-    .filter(t => t.type === 'expense')
-    .reduce((acc: { [key: string]: { amount: number, originalCategory: string } }, transaction) => {
-      // Normalize the category name for comparison while keeping the original for display
-      const normalizedCategory = transaction.category.toLowerCase().trim();
-      if (!acc[normalizedCategory]) {
-        acc[normalizedCategory] = {
-          amount: 0,
-          originalCategory: transaction.category // Keep the original category name for display
-        };
-      }
-      acc[normalizedCategory].amount += Number(transaction.amount);
-      return acc;
-    }, {});
+  const categoryChartData = useMemo(() => {
+    const categoryData = transactions
+      .filter(t => t.type === 'expense')
+      .reduce((acc: { [key: string]: { amount: number, originalCategory: string } }, transaction) => {
+        const normalizedCategory = transaction.category.toLowerCase().trim();
+        if (!acc[normalizedCategory]) {
+          acc[normalizedCategory] = {
+            amount: 0,
+            originalCategory: transaction.category
+          };
+        }
+        acc[normalizedCategory].amount += Number(transaction.amount);
+        return acc;
+      }, {});
 
-  // Convert the aggregated data to the required format and calculate percentages
-  const categoryChartData = Object.entries(categoryData)
-    .map(([_, data]) => ({
-      category: data.originalCategory, // Use the original category name for display
-      amount: data.amount,
-      percentage: (data.amount / totalExpenses) * 100
-    }))
-    .sort((a, b) => b.amount - a.amount);
+    return Object.entries(categoryData)
+      .map(([_, data]) => ({
+        category: data.originalCategory,
+        amount: data.amount,
+        percentage: totalExpenses > 0 ? (data.amount / totalExpenses) * 100 : 0
+      }))
+      .sort((a, b) => b.amount - a.amount);
+  }, [transactions, totalExpenses]);
 
   const tips = [];
 
