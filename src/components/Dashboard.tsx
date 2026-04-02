@@ -509,7 +509,7 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 sm:hidden z-40">
-        <div className="mx-4 mb-4 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-2xl border border-white/50 dark:border-white/8 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/40" style={{ WebkitBackdropFilter: 'blur(40px) saturate(1.3)', backdropFilter: 'blur(40px) saturate(1.3)' }}>
+        <div className="mx-4 mb-4 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-2xl rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/40" style={{ WebkitBackdropFilter: 'blur(40px) saturate(1.3)', backdropFilter: 'blur(40px) saturate(1.3)' }}>
           <div className="flex items-center justify-around h-14 px-2">
             <button className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
               <LayoutDashboard className="h-5 w-5" />
