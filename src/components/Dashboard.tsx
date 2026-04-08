@@ -298,7 +298,7 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
 
   return (
     <div className="min-h-screen bg-[#f8fafb] dark:bg-slate-950 pb-20 sm:pb-6">
-      <div className="fixed top-0 left-0 right-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-[#bfc9c4]/20">
+      <div className="fixed top-0 left-0 right-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-[#bfc9c4]/20" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-14">
             <div className="flex items-center gap-2.5 min-w-0">
@@ -467,44 +467,7 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
           </div>
         </div>
 
-        {/* Expense breakdown chart - real daily data */}
-        {(() => {
-          const expenses = filteredTransactions.filter(tx => tx.type === 'expense');
-          const dailyTotals: Record<string, number> = {};
-          expenses.forEach(tx => {
-            const day = tx.date.slice(8, 10);
-            dailyTotals[day] = (dailyTotals[day] || 0) + Number(tx.amount);
-          });
-          const days = Object.keys(dailyTotals).sort().slice(-7);
-          const maxVal = Math.max(...days.map(d => dailyTotals[d]), 1);
-          if (days.length === 0) return null;
-          const maxDay = days.reduce((a, b) => dailyTotals[a] > dailyTotals[b] ? a : b, days[0]);
-          return (
-            <div className="bg-[#f2f4f5] dark:bg-zinc-900/50 rounded-3xl p-5 mb-4">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-base font-bold text-[#00342b] dark:text-[#94d3c1] font-manrope">{t('analysis.expense_breakdown')}</h2>
-                <span className="text-xs font-semibold text-[#3f4945] dark:text-zinc-400">{t('dashboard.this_month')}</span>
-              </div>
-              <div className="flex items-end justify-between gap-1.5" style={{ height: '80px' }}>
-                {days.map((day) => {
-                  const barHeight = Math.max((dailyTotals[day] / maxVal) * 56, 4);
-                  const isMax = day === maxDay;
-                  return (
-                    <div key={day} className="flex-1 flex flex-col items-center gap-1 justify-end">
-                      <div
-                        className={`w-full rounded-t-lg transition-all ${isMax ? 'bg-[#00342b] dark:bg-[#94d3c1]' : 'bg-[#e1e3e4] dark:bg-zinc-700'}`}
-                        style={{ height: `${barHeight}px` }}
-                      />
-                      <span className="text-[9px] text-[#707975] dark:text-zinc-500 leading-none">{day}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })()}
-
-        <div className="glass-card p-4 mb-4 content-fade-in-delay-1">
+<div className="glass-card p-4 mb-4 content-fade-in-delay-1">
           <div className="flex items-center gap-1 p-1 bg-slate-100/80 dark:bg-white/5 rounded-xl mb-4">
             {(['current', 'yearly', 'cumulative'] as const).map((tab) => (
               <button

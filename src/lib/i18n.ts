@@ -189,6 +189,8 @@ export const translations = {
     'transaction.update_error': 'Failed to update transaction',
     'transaction.by_category': 'By Category',
     'transaction.recent': 'Recent Transactions',
+    'transaction.amount_label': 'Amount',
+    'transaction.category_label': 'Category',
 
     // Tips
     'tips.negative_savings': 'Your expenses exceed your income. Consider reviewing your spending habits.',
@@ -448,6 +450,8 @@ export const translations = {
     'transaction.update_error': 'שגיאה בעדכון העסקה',
     'transaction.by_category': 'לפי קטגוריה',
     'transaction.recent': 'עסקאות אחרונות',
+    'transaction.amount_label': 'סכום',
+    'transaction.category_label': 'קטגוריה',
 
     // Tips
     'tips.negative_savings': 'ההוצאות שלך עולות על ההכנסות. שקול לבחון את הרגלי ההוצאות שלך.',
