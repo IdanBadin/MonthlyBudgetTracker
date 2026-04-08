@@ -12,6 +12,11 @@ function App() {
   const [session, setSession] = useState(null);
   const [profile, setProfile] = useState<Profile | null>(null);
 
+  // Default to dark mode before profile loads
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+  }, []);
+
   const fetchProfile = useCallback(async (userId: string) => {
     const { data, error } = await supabase
       .from('profiles')
@@ -21,10 +26,10 @@ function App() {
 
     if (!error && data) {
       setProfile(data);
-      if (data.theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
+      if (data.theme === 'light') {
         document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
       }
       if (data.language === 'he') {
         document.documentElement.dir = 'rtl';

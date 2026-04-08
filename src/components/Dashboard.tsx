@@ -297,7 +297,7 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafb] dark:bg-slate-950 pb-20 sm:pb-6">
+    <div className="min-h-screen bg-[#f8fafb] dark:bg-[#111816] pb-20 sm:pb-6">
       <div className="fixed top-0 left-0 right-0 z-30 modern-header">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-14">
@@ -344,89 +344,114 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
           minAllowedDate={minAllowedDate}
         />
 
-        <div className="grid grid-cols-2 gap-3 mb-4 content-fade-in">
-          <div className="stat-card balance-card col-span-2 sm:col-span-1">
-            <div className="flex items-center justify-between mb-1.5">
-              <p className="text-xs font-medium text-slate-500 dark:text-zinc-500">{t('dashboard.starting_balance')}</p>
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={toggleBalanceVisibility}
-                  className="p-1 text-[#707975] hover:text-[#00342b] dark:hover:text-[#94d3c1] transition-colors rounded cursor-pointer"
-                >
-                  {showBalances ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
-                </button>
-                <button
-                  onClick={() => {
-                    setNewBalance(startingBalance?.toString() || '');
-                    setIsEditingBalance(true);
-                  }}
-                  className="p-1 text-[#707975] hover:text-[#00342b] dark:hover:text-[#94d3c1] transition-colors rounded cursor-pointer text-xs"
-                >
-                  {t('common.edit') || 'Edit'}
-                </button>
-              </div>
+        {/* Hero Current Balance Card */}
+        <div className="relative rounded-2xl overflow-hidden mb-4 content-fade-in" style={{ background: 'linear-gradient(135deg, #004D40 0%, #00342b 100%)' }}>
+          <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: 'radial-gradient(circle at 80% 20%, white 0%, transparent 60%)' }} />
+          <div className="relative p-5">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-sm font-medium text-white/70">{t('dashboard.current_balance')}</p>
+              <button
+                onClick={toggleBalanceVisibility}
+                className="p-1.5 text-white/60 hover:text-white transition-colors rounded-lg cursor-pointer"
+              >
+                {showBalances ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+              </button>
             </div>
-            {isEditingBalance ? (
-              <div className="flex gap-1.5">
-                <input
-                  type="number"
-                  value={newBalance}
-                  onChange={(e) => setNewBalance(e.target.value)}
-                  className="modern-input px-2 py-1 text-sm flex-1"
-                  placeholder="0"
-                />
-                <button onClick={handleSaveBalance} className="px-2.5 py-1 bg-gradient-to-r from-[#29695b] to-[#00342b] text-white rounded-lg text-xs font-semibold cursor-pointer">
-                  {t('settings.save') || 'Save'}
-                </button>
-                <button onClick={() => setIsEditingBalance(false)} className="px-2 py-1 bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-zinc-400 rounded-lg text-xs cursor-pointer">
-                  X
-                </button>
-              </div>
-            ) : (
-              <p className="text-xl font-bold tracking-tight text-[#00342b] dark:text-[#94d3c1]" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                {formatBalanceDisplay(startingBalance || 0)}
-              </p>
-            )}
+            <p className="text-4xl font-bold tracking-tight text-white mb-3 font-manrope" style={{ fontVariantNumeric: 'tabular-nums' }} dir="ltr">
+              {formatBalanceDisplay(balance)}
+            </p>
+            <div className="flex items-center gap-1.5">
+              {isProfit
+                ? <TrendingUp className="h-3.5 w-3.5 text-emerald-300 flex-shrink-0" />
+                : <TrendingDown className="h-3.5 w-3.5 text-rose-300 flex-shrink-0" />
+              }
+              <span className={`text-sm font-medium ${isProfit ? 'text-emerald-300' : 'text-rose-300'}`} dir="ltr">
+                {isProfit ? '+' : '-'}{formatBalanceDisplay(Math.abs(monthlyProfitLoss))}
+              </span>
+              <span className="text-white/50 text-xs">{t('dashboard.this_month')}</span>
+            </div>
           </div>
+        </div>
 
+        {/* Income + Expense Cards */}
+        <div className="grid grid-cols-2 gap-3 mb-4 content-fade-in">
           <button
             onClick={() => setSelectedTransactionType('income')}
-            className="stat-card income-card text-start cursor-pointer"
+            className="stat-card text-start cursor-pointer"
           >
-            <div className="flex items-center justify-between mb-1.5">
-              <p className="text-xs font-medium text-slate-500 dark:text-zinc-500">{t('dashboard.total_income')}</p>
-              <div className="h-7 w-7 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center">
-                <TrendingUp className="h-3.5 w-3.5 text-emerald-500" />
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-xs font-medium text-slate-500 dark:text-zinc-400">{t('dashboard.total_income')}</p>
+              <div className="h-9 w-9 rounded-full bg-[#E8F8F6] dark:bg-[#4DB8AC]/15 flex items-center justify-center flex-shrink-0">
+                <TrendingDown className="h-4 w-4 text-[#4DB8AC]" />
               </div>
             </div>
-            <p className="text-xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400">{formatBalanceDisplay(totalIncome)}</p>
+            <p className="text-xl font-bold tracking-tight text-[#00695C] dark:text-[#4DB8AC]" style={{ fontVariantNumeric: 'tabular-nums' }}>{formatBalanceDisplay(totalIncome)}</p>
             <p className="text-[10px] text-slate-400 dark:text-zinc-600 mt-0.5">{t('dashboard.this_month')}</p>
           </button>
 
           <button
             onClick={() => setSelectedTransactionType('expense')}
-            className="stat-card expense-card text-start cursor-pointer"
+            className="stat-card text-start cursor-pointer"
           >
-            <div className="flex items-center justify-between mb-1.5">
-              <p className="text-xs font-medium text-slate-500 dark:text-zinc-500">{t('dashboard.total_expenses')}</p>
-              <div className="h-7 w-7 rounded-lg bg-rose-50 dark:bg-rose-500/10 flex items-center justify-center">
-                <TrendingDown className="h-3.5 w-3.5 text-rose-500" />
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-xs font-medium text-slate-500 dark:text-zinc-400">{t('dashboard.total_expenses')}</p>
+              <div className="h-9 w-9 rounded-full bg-[#FFEBEB] dark:bg-[#E57373]/15 flex items-center justify-center flex-shrink-0">
+                <TrendingUp className="h-4 w-4 text-[#E57373]" />
               </div>
             </div>
-            <p className="text-xl font-bold tracking-tight text-rose-600 dark:text-rose-400">{formatBalanceDisplay(totalExpenses)}</p>
+            <p className="text-xl font-bold tracking-tight text-[#C62828] dark:text-[#E57373]" style={{ fontVariantNumeric: 'tabular-nums' }}>{formatBalanceDisplay(totalExpenses)}</p>
             <p className="text-[10px] text-slate-400 dark:text-zinc-600 mt-0.5">{t('dashboard.this_month')}</p>
           </button>
+        </div>
 
-          <div className="stat-card balance-card col-span-2 sm:col-span-1">
+        {/* Starting Balance + Monthly Profit */}
+        <div className="grid grid-cols-2 gap-3 mb-4 content-fade-in">
+          <div className="stat-card">
+            <div className="flex items-center justify-between mb-1.5">
+              <p className="text-xs font-medium text-slate-500 dark:text-zinc-500">{t('dashboard.starting_balance')}</p>
+              <button
+                onClick={() => {
+                  setNewBalance(startingBalance?.toString() || '');
+                  setIsEditingBalance(true);
+                }}
+                className="text-[10px] text-[#29695b] dark:text-[#94d3c1] hover:underline cursor-pointer"
+              >
+                {t('common.edit') || 'Edit'}
+              </button>
+            </div>
+            {isEditingBalance ? (
+              <div className="flex gap-1 mt-1">
+                <input
+                  type="number"
+                  value={newBalance}
+                  onChange={(e) => setNewBalance(e.target.value)}
+                  className="modern-input px-2 py-1 text-xs flex-1"
+                  placeholder="0"
+                />
+                <button onClick={handleSaveBalance} className="px-2 py-1 bg-[#004D40] text-white rounded-lg text-[10px] font-semibold cursor-pointer">
+                  ✓
+                </button>
+                <button onClick={() => setIsEditingBalance(false)} className="px-2 py-1 bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-zinc-400 rounded-lg text-[10px] cursor-pointer">
+                  ✕
+                </button>
+              </div>
+            ) : (
+              <p className="text-lg font-bold tracking-tight text-[#00342b] dark:text-[#94d3c1]" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                {formatBalanceDisplay(startingBalance || 0)}
+              </p>
+            )}
+          </div>
+
+          <div className="stat-card">
             <div className="flex items-center justify-between mb-1.5">
               <p className="text-xs font-medium text-slate-500 dark:text-zinc-500">
                 {isProfit ? t('dashboard.monthly_profit') : t('dashboard.monthly_loss')}
               </p>
-              <div className={`h-7 w-7 rounded-lg flex items-center justify-center ${isProfit ? 'bg-emerald-50 dark:bg-emerald-500/10' : 'bg-rose-50 dark:bg-rose-500/10'}`}>
-                {isProfit ? <TrendingUp className="h-3.5 w-3.5 text-emerald-500" /> : <TrendingDown className="h-3.5 w-3.5 text-rose-500" />}
+              <div className={`h-6 w-6 rounded-full flex items-center justify-center ${isProfit ? 'bg-emerald-50 dark:bg-emerald-500/10' : 'bg-rose-50 dark:bg-rose-500/10'}`}>
+                {isProfit ? <TrendingUp className="h-3 w-3 text-emerald-500" /> : <TrendingDown className="h-3 w-3 text-rose-500" />}
               </div>
             </div>
-            <p className={`text-xl font-bold tracking-tight ${isProfit ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+            <p className={`text-lg font-bold tracking-tight ${isProfit ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`} style={{ fontVariantNumeric: 'tabular-nums' }}>
               {formatBalanceDisplay(Math.abs(monthlyProfitLoss))}
             </p>
             <p className="text-[10px] text-slate-400 dark:text-zinc-600 mt-0.5">{t('dashboard.this_month')}</p>
