@@ -485,17 +485,17 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
                 <h2 className="text-base font-bold text-[#00342b] dark:text-[#94d3c1] font-manrope">{t('analysis.expense_breakdown')}</h2>
                 <span className="text-xs font-semibold text-[#3f4945] dark:text-zinc-400">{t('dashboard.this_month')}</span>
               </div>
-              <div className="flex items-end justify-between h-16 gap-1.5">
+              <div className="flex items-end justify-between gap-1.5" style={{ height: '80px' }}>
                 {days.map((day) => {
-                  const pct = Math.round((dailyTotals[day] / maxVal) * 100);
+                  const barHeight = Math.max((dailyTotals[day] / maxVal) * 56, 4);
                   const isMax = day === maxDay;
                   return (
-                    <div key={day} className="flex-1 flex flex-col items-center gap-1">
+                    <div key={day} className="flex-1 flex flex-col items-center gap-1 justify-end">
                       <div
                         className={`w-full rounded-t-lg transition-all ${isMax ? 'bg-[#00342b] dark:bg-[#94d3c1]' : 'bg-[#e1e3e4] dark:bg-zinc-700'}`}
-                        style={{ height: `${Math.max(pct, 8)}%` }}
+                        style={{ height: `${barHeight}px` }}
                       />
-                      <span className="text-[9px] text-[#707975] dark:text-zinc-500">{day}</span>
+                      <span className="text-[9px] text-[#707975] dark:text-zinc-500 leading-none">{day}</span>
                     </div>
                   );
                 })}
