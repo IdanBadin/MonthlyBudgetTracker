@@ -1,29 +1,35 @@
-# Task: Deep Performance Analysis & Additional Optimizations
-Date: 2026-03-29
+# Monthly Budget Tracker — TODO
 
-## Goal
-Perform comprehensive performance analysis to identify any remaining optimization opportunities beyond Phase 1 fixes.
+## Completed
+- [x] Full "Midnight Finance" glassmorphism redesign
+- [x] Phase 1 performance fixes (i18n, useCallback, memoization, Promise.all, abort controllers)
+- [x] Skeleton loader components
+- [x] Deep performance analysis (PERFORMANCE_ANALYSIS.md)
+- [x] Test skeleton files created
+- [x] CumulativeProfitSelector N+1 query fix
+- [x] MonthlyAnalysis useMemo for all calculations + chart data
+- [x] Dashboard auth consolidation (3 calls → 1)
+- [x] App.tsx backup interval stability (useRef)
+- [x] Supabase retry AbortSignal support
+- [x] TransactionList O(n²) → O(n) running balance fix
+- [x] Push to GitHub + deploy to Netlify
+- [x] הסרת border לבן מהתפריט התחתון
+- [x] עדכון README.md עם תיאור האפליקציה
+- [x] חיבור Netlify CI/CD לגיטהאב (auto-deploy on push)
+- [x] הגדרת env vars ב-Netlify (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY)
+- [x] אימות RLS על כל 10 הטבלאות ב-Supabase ✅
 
-## Plan
-- [x] 1. Analyze N+1 query patterns in data fetching
-- [x] 2. Identify React re-render issues and missing memoization
-- [x] 3. Find caching opportunities
-- [x] 4. Check for memory leaks and cleanup issues
-- [x] 5. Identify redundant computations
-- [x] 6. Provide actionable code examples for each issue
-
-## Previous Phase 1 Completed
-✅ i18n memoization, App.tsx useCallback, Dashboard memoization, Promise.all batching, abort controller cleanup
-
-## Notes
-Building on completed Phase 1 work to find additional optimization opportunities.
-
-## Findings Summary
-- **7 additional issues identified** beyond Phase 1 fixes
-- **Critical:** CumulativeProfitSelector N+1 query (6x performance gain)
-- **High Impact:** MonthlyAnalysis missing memoization (10-50x faster renders)
-- **High Impact:** No query caching layer (instant on revisit)
-- Full report: `/PERFORMANCE_ANALYSIS.md`
-
-## Review
-✅ Analysis complete. Comprehensive report generated with code examples for all 7 issues.
+## Open
+- [ ] **Phase 1 (Critical):**
+  - [ ] Fix #1: Auth listener memory leak in supabase.ts:116
+  - [ ] Fix #2: AdvancedSearch debouncing
+- [ ] **Phase 2 (High Impact):**
+  - [ ] Fix #3: AdvancedSearch auth caching
+  - [ ] Fix #4: AdvancedSearch memoization
+- [ ] **Phase 3 (Polish):**
+  - [ ] Fix #5: App.tsx theme dependency array
+  - [ ] Fix #6: Backup profile caching
+- [ ] Complete test implementations (skeleton files exist)
+- [ ] Visual QA pass in browser
+- [ ] Security review (.env handling)
+- [ ] Consider React Query for server-state caching (deferred)

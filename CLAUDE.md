@@ -9,14 +9,16 @@ touch tasks/todo.md tasks/lessons.md
 
 1. Read `tasks/todo.md`
 2. Read `tasks/lessons.md`
-3. If `tasks/session_context.md` exists — read it
+3. If `tasks/session_context.md` exists — read it and **trust it as the source of truth**
+
+**IMPORTANT: Do NOT re-read project source files to verify session context. Only read files when actively working on them. `session_context.md` is your memory — trust it.**
 
 Then provide a **Session Briefing** in this exact format:
 
 ```
 ✅ Session initialized.
 
-📍 Last stopping point: [exact file/function/line where work stopped]
+📍 Last stopping point: [from session_context.md]
 
 📋 What was done so far:
 - [completed item 1]
@@ -33,16 +35,14 @@ Then provide a **Session Briefing** in this exact format:
 
 ---
 
-## Auto-Save (MANDATORY — Runs Automatically)
+## Save Protocol (Manual Triggers Only)
 
-Auto-save OVERWRITES `tasks/session_context.md` each time (not append). 
-Manual triggers do the same — no duplication.
+Saving happens **only** when the user explicitly triggers it using one of these words:
 
-IMPORTANT: At the **end of every conversation turn where meaningful work was completed**, silently update `tasks/session_context.md`. Do NOT wait for the user to ask. Do NOT skip this even if the user seems done.
+**Hebrew:** `סיים`, `סגור`, `שמור`, `תשמור`, `סוף`, `יאללה ביי`, `תסגור`
+**English:** `done`, `save`, `save session`, `bye`, `end`, `wrap up`, `that's it`, `finish`
 
-This ensures that if the user closes the session without saying goodbye, **nothing is lost**.
-
-### What to save in `tasks/session_context.md`:
+### When triggered, OVERWRITE `tasks/session_context.md` with:
 
 ```markdown
 # Session Context — [date]
@@ -70,16 +70,7 @@ This ensures that if the user closes the session without saying goodbye, **nothi
 [anything that could trip up next session]
 ```
 
-Also update `tasks/todo.md` — mark completed items ✅, add new items that emerged.
-
----
-
-## Manual Save Triggers
-
-When the user says any of these, run the full save protocol AND confirm:
-
-**Hebrew:** `סיים`, `סגור`, `שמור`, `תשמור`, `סוף`, `יאללה ביי`, `תסגור`
-**English:** `done`, `save`, `save session`, `bye`, `end`, `wrap up`, `that's it`, `finish`
+Also update `tasks/todo.md` — mark completed items ✅, add new items.
 
 After saving, confirm:
 ```
@@ -92,14 +83,13 @@ After saving, confirm:
 
 ## Task Management
 
-Non-trivial tasks (3+ steps) follow this sequence:
+Non-trivial tasks (3+ steps):
 
-1. **Plan** → Write to `tasks/todo.md`: Goal (one sentence), Steps (checkboxes), Notes
+1. **Plan** → Write to `tasks/todo.md`: Goal, Steps (checkboxes), Notes
 2. **Confirm** → "Here's my plan. Should I proceed?" — wait for approval
-3. **Track** → Check off items as completed, never skip ahead
-4. **Explain** → Brief summary after each meaningful step
-5. **Verify** → NEVER mark done without proving it works. Show actual output. Ask: "Would a staff engineer approve this?"
-6. **Lessons** → After any user correction, immediately update `tasks/lessons.md`:
+3. **Track** → Check off items as completed
+4. **Verify** → NEVER mark done without proving it works. Show actual output
+5. **Lessons** → After any user correction, update `tasks/lessons.md`:
    ```
    ## Lesson — [date]
    Mistake: [what went wrong]
@@ -109,68 +99,41 @@ Non-trivial tasks (3+ steps) follow this sequence:
 
 ---
 
-## Ruflo Swarm Awareness
+## Ruflo Swarm
 
-IMPORTANT: Before starting a task, evaluate if Ruflo Swarm would help. Recommend it when:
+Before starting a multi-faceted task, evaluate if Ruflo Swarm would help:
 - Multi-file changes across 3+ files simultaneously
-- Parallel work needed (frontend + backend + tests)
+- Parallel work (frontend + backend + tests)
 - Large refactors spanning multiple modules
-- Research + implementation + testing combined
-- Any task where multiple specialized agents would be faster
 
-**Say:** "💡 This task could benefit from Ruflo Swarm — [reason]. Want me to use it?"
-Wait for confirmation before proceeding.
+If applicable, say: "💡 This task could benefit from Ruflo Swarm — [reason]. Want me to use it?"
+Wait for confirmation.
 
 ---
 
-## Workflow Principles
+## Workflow & Coding Principles
 
-- **Plan Mode** — Any task with 3+ steps or architectural decisions. If stuck: STOP, re-plan
-- **Subagents** — Use liberally for research, exploration, parallel analysis. One task per subagent. Keeps main context clean and saves tokens
-- **Self-Improvement** — Read lessons at session start. Update immediately after corrections. Escalate repeated mistakes
-- **Autonomous Bug Fixing** — Paste bug → fix it. Use logs/errors/tests. Zero hand-holding
-- **Elegance** — Non-trivial changes: "Is there a more elegant way?" Skip for simple fixes
-
----
-
-## Coding Standards
-
-- Simplicity first — minimal footprint
-- No laziness — root causes, not patches
-- Minimal impact — only touch what's necessary
-- No guessing — ask if unclear
-- Prove it works — show, don't tell
+- **Plan first** — Any task with 3+ steps or architectural decisions. If stuck: STOP, re-plan
+- **Subagents** — Use for research, exploration, parallel analysis. Keeps main context clean
+- **Simplicity first** — minimal footprint, root causes not patches
+- **Minimal impact** — only touch what's necessary
+- **No guessing** — ask if unclear
+- **Prove it works** — show, don't tell
 
 ---
 
-## Token Efficiency (IMPORTANT)
+## Token Efficiency
 
-These rules reduce token usage without hurting quality:
-
-- **Concise responses** — skip preamble, filler, and unnecessary explanations. Get to the point
-- **`/compact` at ~50% context** — don't wait for auto-compaction. When compacting, ALWAYS preserve: modified files list, current task state, key decisions, test status
-- **`/clear` between unrelated tasks** — stale context wastes tokens on every subsequent message
-- **`/btw` for side questions** — questions that don't need to persist in conversation history
-- **Subagents for verbose operations** — delegate test runs, log analysis, large file reads to subagents so output stays out of main context
+- **Concise responses** — skip preamble and filler
+- **`/compact` at ~50% context** — preserve: modified files, task state, key decisions, test status
+- **`/clear` between unrelated tasks**
+- **Subagents for verbose operations** — test runs, log analysis, large file reads
 - **Don't re-read files** already in context
 - **Batch file edits** — combine related changes into single operations
-- **Specific commands** — "run tests for auth module" not "run all tests"
-- **Don't repeat yourself** — if you already explained something, reference it, don't restate it
-
----
-
-## Never Do
-
-- Start implementation without a written plan (non-trivial tasks)
-- Mark a task complete without verification
-- Repeat a mistake without updating `tasks/lessons.md`
-- Keep pushing when stuck — stop and re-plan
-- Touch code outside current task scope
-- End a session without auto-saving context
-- Start a session without the Session Briefing
+- **Don't repeat yourself** — reference, don't restate
 
 ---
 
 # PROJECT-SPECIFIC CONTEXT
 <!-- /init will populate: project overview, folder structure, build/test/lint commands, architecture, dependencies -->
-<!-- IMPORTANT: Keep this section under 100 lines. For details, link to docs/: "For API reference see docs/API.md" -->
+<!-- IMPORTANT: Keep this section under 100 lines. For details, link to docs/ -->

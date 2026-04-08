@@ -46,6 +46,14 @@ export const translations = {
     'dashboard.click_for_details': 'Click on Income or Expenses for detailed analysis',
     'dashboard.balance_updated': 'Balance updated successfully',
     'dashboard.balance_update_error': 'Failed to update balance',
+    'dashboard.monthly_summary': 'Monthly Summary',
+    'dashboard.recent_transactions': 'Recent Transactions',
+    'analysis.expense_breakdown': 'Expense Breakdown',
+    'nav.home': 'Home',
+    'nav.insights': 'Insights',
+    'nav.add': 'Add',
+    'nav.settings': 'Settings',
+    'nav.history': 'History',
 
     // Common
     'common.today': 'Today',
@@ -297,6 +305,14 @@ export const translations = {
     'dashboard.click_for_details': 'לחץ על הכנסות או הוצאות לניתוח מפורט',
     'dashboard.balance_updated': 'היתרה עודכנה בהצלחה',
     'dashboard.balance_update_error': 'שגיאה בעדכון היתרה',
+    'dashboard.monthly_summary': 'סיכום חודשי',
+    'dashboard.recent_transactions': 'פעולות אחרונות',
+    'analysis.expense_breakdown': 'פילוח הוצאות',
+    'nav.home': 'בית',
+    'nav.insights': 'תובנות',
+    'nav.add': 'הוסף',
+    'nav.settings': 'הגדרות',
+    'nav.history': 'היסטוריה',
 
     // Common
     'common.today': 'היום',

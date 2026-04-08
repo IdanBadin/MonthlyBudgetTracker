@@ -467,22 +467,42 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
           </div>
         </div>
 
-        {/* Expense breakdown chart - Stitch style */}
-        <div className="bg-[#f2f4f5] dark:bg-zinc-900/50 rounded-3xl p-5 mb-4">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-base font-bold text-[#00342b] dark:text-[#94d3c1] font-manrope">{t('analysis.expense_breakdown') || 'פילוח הוצאות'}</h2>
-            <span className="text-xs font-semibold text-[#3f4945] dark:text-zinc-400">{t('common.this_month') || 'החודש'}</span>
-          </div>
-          <div className="flex items-end justify-between h-16 gap-1.5">
-            {[40, 65, 90, 55, 75, 35, 80].map((h, i) => (
-              <div
-                key={i}
-                className={`flex-1 rounded-t-lg transition-all ${i === 2 ? 'bg-[#00342b] dark:bg-[#94d3c1]' : 'bg-[#e1e3e4] dark:bg-zinc-700'}`}
-                style={{ height: `${h}%` }}
-              />
-            ))}
-          </div>
-        </div>
+        {/* Expense breakdown chart - real daily data */}
+        {(() => {
+          const expenses = filteredTransactions.filter(tx => tx.type === 'expense');
+          const dailyTotals: Record<string, number> = {};
+          expenses.forEach(tx => {
+            const day = tx.date.slice(8, 10);
+            dailyTotals[day] = (dailyTotals[day] || 0) + Number(tx.amount);
+          });
+          const days = Object.keys(dailyTotals).sort().slice(-7);
+          const maxVal = Math.max(...days.map(d => dailyTotals[d]), 1);
+          if (days.length === 0) return null;
+          const maxDay = days.reduce((a, b) => dailyTotals[a] > dailyTotals[b] ? a : b, days[0]);
+          return (
+            <div className="bg-[#f2f4f5] dark:bg-zinc-900/50 rounded-3xl p-5 mb-4">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-base font-bold text-[#00342b] dark:text-[#94d3c1] font-manrope">{t('analysis.expense_breakdown')}</h2>
+                <span className="text-xs font-semibold text-[#3f4945] dark:text-zinc-400">{t('dashboard.this_month')}</span>
+              </div>
+              <div className="flex items-end justify-between h-16 gap-1.5">
+                {days.map((day) => {
+                  const pct = Math.round((dailyTotals[day] / maxVal) * 100);
+                  const isMax = day === maxDay;
+                  return (
+                    <div key={day} className="flex-1 flex flex-col items-center gap-1">
+                      <div
+                        className={`w-full rounded-t-lg transition-all ${isMax ? 'bg-[#00342b] dark:bg-[#94d3c1]' : 'bg-[#e1e3e4] dark:bg-zinc-700'}`}
+                        style={{ height: `${Math.max(pct, 8)}%` }}
+                      />
+                      <span className="text-[9px] text-[#707975] dark:text-zinc-500">{day}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })()}
 
         <div className="glass-card p-4 mb-4 content-fade-in-delay-1">
           <div className="flex items-center gap-1 p-1 bg-slate-100/80 dark:bg-white/5 rounded-xl mb-4">
@@ -568,19 +588,19 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
           <div className="flex items-center justify-around px-4 pb-6 pt-2">
             <button className="flex flex-col items-center justify-center bg-emerald-50 dark:bg-emerald-900/30 text-[#00342b] dark:text-emerald-100 rounded-2xl px-4 py-2 cursor-pointer">
               <LayoutDashboard className="h-5 w-5" />
-              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">Home</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">{t('nav.home')}</span>
             </button>
             <Link to="/analysis" className="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-[#00342b] dark:hover:text-emerald-300 transition-colors cursor-pointer">
               <BarChart3 className="h-5 w-5" />
-              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">Insights</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">{t('nav.insights')}</span>
             </Link>
             <button onClick={() => setIsFormOpen(true)} className="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-[#00342b] dark:hover:text-emerald-300 transition-colors cursor-pointer">
               <PlusCircle className="h-5 w-5" />
-              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">Add</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">{t('nav.add')}</span>
             </button>
             <button onClick={() => setIsSettingsOpen(true)} className="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-[#00342b] dark:hover:text-emerald-300 transition-colors cursor-pointer">
               <Settings className="h-5 w-5" />
-              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">Settings</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">{t('nav.settings')}</span>
             </button>
           </div>
         </div>

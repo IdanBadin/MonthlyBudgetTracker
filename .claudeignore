@@ -21,6 +21,7 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 bun.lockb
+composer.lock
 
 # Environment and secrets
 .env
@@ -68,11 +69,22 @@ coverage/
 .nyc_output/
 __pycache__/
 *.pyc
+*.pyo
 .pytest_cache/
 *.egg-info/
+.mypy_cache/
+.ruff_cache/
 
 # Large data files
 *.sql
 *.sqlite
 *.db
 *.csv
+
+# Docker (usually not needed for code context)
+docker-compose.override.yml
+
+# Documentation that's not code
+LICENSE
+LICENSE.md
+CHANGELOG.md

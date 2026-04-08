@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { format, getDaysInMonth, subMonths } from 'date-fns';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-import { ArrowUp, ArrowLeft, TrendingUp, TrendingDown, DollarSign, Calendar, Wallet, LayoutDashboard, BarChart3 } from 'lucide-react';
+import { ArrowUp, ArrowLeft, TrendingUp, TrendingDown, DollarSign, Calendar, Wallet, LayoutDashboard, BarChart3, PlusCircle, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { Profile, Transaction } from '../types/database';
@@ -642,21 +642,29 @@ export function MonthlyAnalysis({ profile }: MonthlyAnalysisProps) {
         </button>
       </div>
 
-      {/* Mobile Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 sm:hidden z-40">
-        <div className="mx-4 mb-4 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-2xl border border-white/50 dark:border-white/8 rounded-2xl shadow-xl" style={{ WebkitBackdropFilter: 'blur(40px) saturate(1.3)', backdropFilter: 'blur(40px) saturate(1.3)' }}>
-          <div className="flex items-center justify-around h-14 px-2">
-            <Link to="/" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl text-slate-400 dark:text-zinc-500 cursor-pointer">
+      {/* Mobile Bottom Navigation - Stitch style 4 items */}
+      <nav className="fixed bottom-0 left-0 right-0 sm:hidden z-40">
+        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-t-3xl shadow-[0_-8px_24px_rgba(25,28,29,0.04)] border-t border-[#bfc9c4]/20">
+          <div className="flex items-center justify-around px-4 pb-6 pt-2">
+            <Link to="/" className="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-[#00342b] dark:hover:text-emerald-300 transition-colors cursor-pointer">
               <LayoutDashboard className="h-5 w-5" />
-              <span className="text-[10px] font-medium">{t('dashboard.title_short')}</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">{t('nav.home')}</span>
             </Link>
-            <button className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl bg-[#f2f4f5] dark:bg-[#94d3c1]/10 text-[#00342b] dark:text-[#94d3c1]">
+            <button className="flex flex-col items-center justify-center bg-emerald-50 dark:bg-emerald-900/30 text-[#00342b] dark:text-emerald-100 rounded-2xl px-4 py-2 cursor-pointer">
               <BarChart3 className="h-5 w-5" />
-              <span className="text-[10px] font-medium">{t('analysis.title')}</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">{t('nav.insights')}</span>
             </button>
+            <Link to="/" className="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-[#00342b] dark:hover:text-emerald-300 transition-colors cursor-pointer">
+              <PlusCircle className="h-5 w-5" />
+              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">{t('nav.add')}</span>
+            </Link>
+            <Link to="/" className="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-[#00342b] dark:hover:text-emerald-300 transition-colors cursor-pointer">
+              <Settings className="h-5 w-5" />
+              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">{t('nav.settings')}</span>
+            </Link>
           </div>
         </div>
-      </div>
+      </nav>
     </div>
   );
 }

@@ -1,0 +1,315 @@
+{
+  "audit_metadata": {
+    "project": "Monthly Budget Tracker",
+    "audit_date": "2026-04-03",
+    "scanner": "Manual Code Review + Context Analysis",
+    "scope": "src/ directory, database migrations, environment configuration"
+  },
+  "risk_assessment": {
+    "overall_risk_score": 74,
+    "severity_breakdown": {
+      "critical": 2,
+      "high": 4,
+      "medium": 3,
+      "low": 2
+    },
+    "recommendation": "Address all critical and high-severity vulnerabilities before production deployment"
+  },
+  "vulnerabilities": [
+    {
+      "id": "SEC-001",
+      "title": "Hardcoded Supabase Credentials in .env File",
+      "severity": "CRITICAL",
+      "file": ".env",
+      "line": 1,
+      "cwe": "CWE-798: Use of Hard-coded Credentials",
+      "description": "Supabase anon key and URL are hardcoded in .env file. If .env is checked into version control or exposed, attackers can access the entire database using the public anon key.",
+      "affected_code": "VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\nVITE_SUPABASE_URL=https://hehjvzivlywxqyaqfone.supabase.co",
+      "impact": "Complete database compromise. Attackers can read all transactions, balances, and user preferences without authentication.",
+      "remediation": [
+        "Move credentials to CI/CD secrets only (never commit .env)",
+        "Add .env to .gitignore immediately",
+        "Rotate Supabase anon key in production",
+        "Use separate keys for dev/staging/production",
+        "Consider using Supabase Service Role for sensitive operations with additional RLS policies"
+      ]
+    },
+    {
+      "id": "SEC-002",
+      "title": "WebAuthn Challenge Not Validated Server-Side",
+      "severity": "CRITICAL",
+      "file": "src/lib/biometrics.ts",
+      "line": "22-23, 93-94",
+      "cwe": "CWE-352: Cross-Site Request Forgery (CSRF)",
+      "description": "Biometric registration and verification generate random challenges but don't validate them server-side. An attacker could replay authentication tokens or bypass WebAuthn protections.",
+      "affected_code": "const challenge = new Uint8Array(32);\ncrypto.getRandomValues(challenge);\n// Challenge is sent to browser but never verified against stored challenge server-side",
+      "impact": "WebAuthn bypass: Attackers can forge authentication claims without legitimate biometric verification.",
+      "remediation": [
+        "Store challenge server-side (in Supabase) before sending to client",
+        "Verify returned challenge signature matches stored challenge",
+        "Add challenge expiration (60 second timeout recommended)",
+        "Implement nonce-based replay protection",
+        "Add CSRF tokens to biometric registration endpoints"
+      ]
+    },
+    {
+      "id": "SEC-003",
+      "title": "Backup Data Stored Unencrypted",
+      "severity": "HIGH",
+      "file": "src/lib/backup.ts",
+      "line": "80-87",
+      "cwe": "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+      "description": "Backup data containing full transaction history, balances, and user preferences is stored as plaintext JSON in the database without encryption. Vulnerable to database breach.",
+      "affected_code": "const backupData: BackupData = {\n  transactions: transactions || [],\n  preferences: preferences || [],\n  layouts: layouts || [],\n  startingBalances: startingBalances || [],\n  internalTransfers: internalTransfers || []\n};\nawait supabase.from('data_backups').insert([{\n  user_id: userId,\n  backup_data: backupData,  // Stored as plaintext\n  backup_type: backupType\n}]);",
+      "impact": "If database is breached, all historical financial data is exposed. User financial records can be stolen without additional decryption effort.",
+      "remediation": [
+        "Encrypt backup_data before storage using AES-256-GCM",
+        "Store encryption key in Supabase Vault or external key management service",
+        "Use client-side encryption before sending to server",
+        "Add authenticated encryption to prevent tampering",
+        "Implement key rotation policy (yearly minimum)"
+      ]
+    },
+    {
+      "id": "SEC-004",
+      "title": "Authentication Tokens Stored in localStorage",
+      "severity": "HIGH",
+      "file": "src/lib/supabase.ts",
+      "line": "localStorage references",
+      "cwe": "CWE-522: Insufficient Session Expiration",
+      "description": "Supabase stores JWT tokens in localStorage. This is vulnerable to XSS attacks where malicious JavaScript can steal auth tokens.",
+      "affected_code": "localStorage.setItem('supabase.auth.token', JSON.stringify(session));\nlocalStorage.getItem(key);\nlocalStorage.clear();",
+      "impact": "XSS attack can steal authentication tokens, allowing attacker to impersonate user and access all their financial data.",
+      "remediation": [
+        "Use httpOnly cookies for token storage instead of localStorage",
+        "Set Secure flag on cookies (HTTPS only)",
+        "Set SameSite=Strict to prevent CSRF",
+        "Implement Content Security Policy (CSP) to prevent XSS",
+        "Add token rotation on every request"
+      ]
+    },
+    {
+      "id": "SEC-005",
+      "title": "Missing Input Validation on Transaction Amounts",
+      "severity": "HIGH",
+      "file": "src/components/TransactionForm.tsx",
+      "line": "amount: Number(formData.amount)",
+      "cwe": "CWE-20: Improper Input Validation",
+      "description": "Transaction amounts are converted to numbers without validation. No checks for negative values, excessively large values, or non-numeric input.",
+      "affected_code": "const { error } = await supabase\n  .from('transactions')\n  .insert([{\n    user_id: user.data.user?.id,\n    ...formData,\n    category: finalCategory,\n    amount: Number(formData.amount)  // No validation\n  }]);",
+      "impact": "Attackers can create invalid transactions with extreme values, causing data corruption or financial miscalculations.",
+      "remediation": [
+        "Validate amount is positive number",
+        "Set maximum transaction limit (e.g., $999,999.99)",
+        "Validate precision (max 2 decimal places)",
+        "Use schema validation library (zod, yup)",
+        "Add database constraints for amount field"
+      ]
+    },
+    {
+      "id": "SEC-006",
+      "title": "Null Safety Issue in getBiometricSettings",
+      "severity": "HIGH",
+      "file": "src/lib/biometrics.ts",
+      "line": "180-196",
+      "cwe": "CWE-476: Null Pointer Dereference",
+      "description": "getBiometricSettings returns null when biometric_settings is null, but callers may not handle null properly, leading to runtime errors or security bypasses.",
+      "affected_code": "export async function getBiometricSettings(userId: string): Promise<{\n  loginEnabled: boolean;\n  backupEnabled: boolean;\n} | null> {\n  // ...\n  return data?.biometric_settings || null;  // Returns null\n}",
+      "impact": "Calling code that doesn't check for null could enable biometric-protected features unintentionally.",
+      "remediation": [
+        "Add null checks at all call sites",
+        "Consider throwing error instead of returning null",
+        "Add TypeScript strict null checking",
+        "Implement default settings fallback",
+        "Add runtime validation of returned object shape"
+      ]
+    },
+    {
+      "id": "SEC-007",
+      "title": "Auth State Change Listener Not Unsubscribed",
+      "severity": "MEDIUM",
+      "file": "src/lib/supabase.ts",
+      "line": "supabase.auth.onAuthStateChange(...)",
+      "cwe": "CWE-401: Missing Release of Memory after Effective Lifetime",
+      "description": "The onAuthStateChange listener is registered at module level but never unsubscribed. If app supports component remounting, this could accumulate listeners and cause memory leaks.",
+      "affected_code": "supabase.auth.onAuthStateChange((_event, session) => {\n  // Listener is never unsubscribed\n  if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {\n    localStorage.clear();\n    window.location.reload();\n  }\n});",
+      "impact": "Memory leak over time. Multiple event listeners could pile up, causing performance degradation.",
+      "remediation": [
+        "Store unsubscribe function and call on cleanup",
+        "Use useEffect cleanup pattern in React",
+        "Add listener counter to monitor active listeners",
+        "Implement listener deduplication"
+      ]
+    },
+    {
+      "id": "SEC-008",
+      "title": "Error Messages May Leak Sensitive Information",
+      "severity": "MEDIUM",
+      "file": "src/lib/backup.ts",
+      "line": "111, 231",
+      "cwe": "CWE-209: Information Exposure Through an Error Message",
+      "description": "console.error logs detailed error messages including Supabase errors, which could expose internal structure or sensitive data.",
+      "affected_code": "console.error('Backup creation failed:', error);\nconsole.error('Restore failed:', error);",
+      "impact": "Developers/attackers with console access can see detailed error info, revealing database structure and internal operations.",
+      "remediation": [
+        "Log errors to secure backend logging only",
+        "Show generic error messages to users",
+        "Sanitize error messages before logging",
+        "Implement error tracking service (Sentry, Rollbar)",
+        "Remove console.error from production builds"
+      ]
+    },
+    {
+      "id": "SEC-009",
+      "title": "Missing HTTPS Enforcement in WebAuthn RP",
+      "severity": "LOW",
+      "file": "src/lib/biometrics.ts",
+      "line": "30",
+      "cwe": "CWE-295: Improper Certificate Validation",
+      "description": "Biometric RP ID is set to window.location.hostname without verifying HTTPS. While browsers block WebAuthn on HTTP, this is poor practice.",
+      "affected_code": "rp: {\n  name: 'Monthly Budget Tracker',\n  id: window.location.hostname  // No HTTPS validation\n}",
+      "impact": "In edge cases, could enable WebAuthn attacks if accessed over HTTP or in non-standard environments.",
+      "remediation": [
+        "Explicitly set RP ID to production domain",
+        "Add HTTPS enforcement check",
+        "Document that HTTPS is required",
+        "Add fallback error if non-HTTPS detected"
+      ]
+    },
+    {
+      "id": "SEC-010",
+      "title": "No Rate Limiting on Authentication Attempts",
+      "severity": "LOW",
+      "file": "src/lib/supabase.ts",
+      "line": "N/A",
+      "cwe": "CWE-307: Improper Restriction of Rendered UI Layers or Frames",
+      "description": "No rate limiting on login attempts. Attackers can perform brute force attacks to guess credentials or biometric challenges.",
+      "affected_code": "supabase.auth.getSession().then(...)\n// No rate limiting checks",
+      "impact": "Brute force attacks possible for password/biometric verification.",
+      "remediation": [
+        "Implement rate limiting on auth endpoints (5 attempts per 15 min)",
+        "Use Supabase Auth's built-in rate limiting",
+        "Add exponential backoff on failures",
+        "Monitor and alert on suspicious auth patterns"
+      ]
+    }
+  ],
+  "security_gaps": {
+    "authentication": [
+      "No 2FA enforcement (only optional biometrics)",
+      "No password complexity requirements configured",
+      "No session timeout/expiration",
+      "No logout across all tabs/windows"
+    ],
+    "data_protection": [
+      "No encryption at rest for financial data",
+      "No field-level encryption for sensitive data",
+      "No audit logging of data access",
+      "No data anonymization/pseudonymization"
+    ],
+    "testing": [
+      "0% security test coverage (4,749 TODO markers in tests)",
+      "No security test cases for auth flows",
+      "No biometric security tests implemented",
+      "No backup encryption tests"
+    ],
+    "infrastructure": [
+      "No CORS configuration visible",
+      "No CSP headers configured",
+      "No rate limiting configured",
+      "No audit logging enabled"
+    ]
+  },
+  "recommendations": {
+    "immediate_actions": [
+      {
+        "priority": "CRITICAL",
+        "action": "Rotate Supabase credentials",
+        "effort": "15 min",
+        "description": "Immediately rotate anon key and regenerate new one in Supabase console. Exposed JWT tokens could be valid for years."
+      },
+      {
+        "priority": "CRITICAL",
+        "action": "Remove .env from git history",
+        "effort": "30 min",
+        "description": "Run 'git filter-branch' to remove .env from entire git history. Add to .gitignore. Regenerate all exposed credentials."
+      },
+      {
+        "priority": "CRITICAL",
+        "action": "Implement backup encryption",
+        "effort": "2 hours",
+        "description": "Add AES-256-GCM encryption for backup_data column. Store keys in Supabase Vault."
+      },
+      {
+        "priority": "HIGH",
+        "action": "Migrate auth tokens to httpOnly cookies",
+        "effort": "1.5 hours",
+        "description": "Update Supabase client config to use cookies instead of localStorage. Set Secure + SameSite=Strict."
+      },
+      {
+        "priority": "HIGH",
+        "action": "Add server-side WebAuthn challenge validation",
+        "effort": "2 hours",
+        "description": "Store challenges in database, validate on assertion. Implement 60-second expiration."
+      }
+    ],
+    "short_term": [
+      "Implement input validation schema for all form inputs",
+      "Add Content Security Policy headers",
+      "Implement rate limiting (5 attempts/15 min)",
+      "Add authentication audit logging",
+      "Create security test suite (Phase 1: critical tests)"
+    ],
+    "long_term": [
+      "Achieve 80%+ test coverage with security-focused tests",
+      "Implement end-to-end encryption for sensitive data",
+      "Add threat modeling and security review process",
+      "Implement security incident response plan",
+      "Regular penetration testing (quarterly)"
+    ]
+  },
+  "compliance": {
+    "gdpr": "NOT COMPLIANT - No encryption of financial data, no audit logging, no data anonymization",
+    "pci_dss": "NOT APPLICABLE - No credit card data stored, but similar security standards should apply to financial data",
+    "hipaa": "NOT APPLICABLE",
+    "sox": "NOT APPLICABLE"
+  },
+  "test_coverage_impact": {
+    "security_tests_needed": 27,
+    "critical_tests": 3,
+    "current_coverage": "0%",
+    "estimated_time": "27 hours",
+    "priority_phases": {
+      "phase_1_critical": [
+        "Auth listener memory leak test (30 min)",
+        "getBiometricSettings null safety (15 min)",
+        "Backup encryption validation (45 min)"
+      ],
+      "phase_2_high": [
+        "WebAuthn challenge validation (1 hour)",
+        "Input validation for transactions (1.5 hours)",
+        "localStorage XSS vulnerability (1 hour)"
+      ],
+      "phase_3_medium": [
+        "Rate limiting tests (1.5 hours)",
+        "Backup restoration integrity (1 hour)",
+        "Token refresh mechanism (45 min)"
+      ]
+    }
+  },
+  "summary": {
+    "total_vulnerabilities": 10,
+    "critical": 2,
+    "high": 4,
+    "medium": 3,
+    "low": 2,
+    "status": "PRODUCTION NOT READY - Multiple critical security gaps must be addressed before deployment",
+    "next_steps": [
+      "1. Rotate exposed credentials (CRITICAL - 15 min)",
+      "2. Address backup encryption (CRITICAL - 2 hours)",
+      "3. Migrate to httpOnly cookies (HIGH - 1.5 hours)",
+      "4. Implement WebAuthn server-side validation (HIGH - 2 hours)",
+      "5. Run Phase 1 security tests (1.5 hours)"
+    ]
+  }
+}
