@@ -77,14 +77,14 @@ export function TransactionList({ transactions, onTransactionUpdated, profile, s
 
   return (
     <>
-      <div className="space-y-0">
+      <div className="space-y-2 pb-6">
         {transactionsWithBalance.map((transaction) => {
             const textIsRTL = containsRTL(transaction.description);
 
             return (
               <div
                 key={transaction.id}
-                className="flex items-center p-4 bg-white dark:bg-zinc-900 rounded-2xl shadow-[0_4px_12px_rgba(25,28,29,0.02)] dark:shadow-none mb-2 mx-1 hover:shadow-[0_4px_16px_rgba(25,28,29,0.06)] transition-all duration-200"
+                className="flex items-center p-4 bg-white dark:bg-zinc-900 rounded-2xl shadow-[0_4px_12px_rgba(25,28,29,0.02)] dark:shadow-none hover:shadow-[0_4px_16px_rgba(25,28,29,0.06)] transition-all duration-200"
               >
                 {/* Category icon container */}
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ml-4 ${
@@ -104,7 +104,7 @@ export function TransactionList({ transactions, onTransactionUpdated, profile, s
                     className="font-bold text-[#191c1d] dark:text-white text-sm leading-tight truncate"
                     style={{
                       direction: textIsRTL ? 'rtl' : 'ltr',
-                      textAlign: textIsRTL ? 'right' : 'left',
+                      textAlign: isRTL ? 'right' : (textIsRTL ? 'right' : 'left'),
                       unicodeBidi: 'isolate',
                     }}
                   >

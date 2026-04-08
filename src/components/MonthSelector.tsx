@@ -149,7 +149,7 @@ export function MonthSelector({ selectedMonth, onChange, profile, minAllowedDate
               className={`
                 flex-shrink-0 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 active:scale-95
                 ${isSelected
-                  ? 'bg-[#00342b] text-white shadow-lg shadow-[#00342b]/20'
+                  ? 'bg-[#00342b] text-white shadow-[0_2px_8px_rgba(0,52,43,0.35)]'
                   : isToday
                     ? 'bg-[#f2f4f5] dark:bg-white/8 text-[#00342b] dark:text-[#94d3c1] border border-[#00342b]/20'
                     : 'text-[#3f4945] dark:text-zinc-400 hover:bg-[#f2f4f5] dark:hover:bg-white/5'

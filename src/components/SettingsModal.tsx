@@ -93,7 +93,6 @@ export function SettingsModal({ profile, onClose, onUpdate }: SettingsModalProps
                   onChange={(e) => setFormData({ ...formData, language: e.target.value as Language })}
                   className="modern-input text-sm"
                 >
-                  <option value="en">English</option>
                   <option value="he">עברית</option>
                 </select>
               )}
