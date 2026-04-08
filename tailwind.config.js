@@ -6,6 +6,8 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        manrope: ['Manrope', 'system-ui', 'sans-serif'],
+        headline: ['Manrope', 'system-ui', 'sans-serif'],
       },
       colors: {
         primary: {
@@ -15,7 +17,34 @@ export default {
         secondary: {
           DEFAULT: 'var(--color-secondary)',
           opacity: 'rgba(var(--color-secondary-rgb), <alpha-value>)'
-        }
+        },
+        // Material Design 3 color tokens
+        'md-primary': '#00342b',
+        'md-on-primary': '#ffffff',
+        'md-primary-container': '#004d40',
+        'md-on-primary-container': '#7ebdac',
+        'md-primary-fixed': '#afefdd',
+        'md-primary-fixed-dim': '#94d3c1',
+        'md-secondary': '#006a63',
+        'md-on-secondary': '#ffffff',
+        'md-secondary-container': '#8bf1e6',
+        'md-on-secondary-container': '#006f67',
+        'md-surface-tint': '#29695b',
+        'md-background': '#f8fafb',
+        'md-surface': '#f8fafb',
+        'md-surface-container-lowest': '#ffffff',
+        'md-surface-container-low': '#f2f4f5',
+        'md-surface-container': '#eceeef',
+        'md-surface-container-high': '#e6e8e9',
+        'md-surface-container-highest': '#e1e3e4',
+        'md-on-surface': '#191c1d',
+        'md-on-surface-variant': '#3f4945',
+        'md-outline': '#707975',
+        'md-outline-variant': '#bfc9c4',
+        'md-inverse-primary': '#94d3c1',
+        'md-inverse-surface': '#2e3132',
+        'md-error': '#ba1a1a',
+        'md-error-container': '#ffdad6',
       },
       animation: {
         'fade-in-up': 'fade-in-up 0.35s cubic-bezier(0.22, 1, 0.36, 1)',
@@ -43,8 +72,8 @@ export default {
           '100%': { backgroundPosition: '200% center' },
         },
         'pulse-glow': {
-          '0%, 100%': { boxShadow: '0 0 12px rgba(99, 102, 241, 0.2)' },
-          '50%': { boxShadow: '0 0 28px rgba(99, 102, 241, 0.45)' },
+          '0%, 100%': { boxShadow: '0 0 12px rgba(0, 52, 43, 0.2)' },
+          '50%': { boxShadow: '0 0 28px rgba(0, 52, 43, 0.45)' },
         },
         'float': {
           '0%, 100%': { transform: 'translateY(0px)' },

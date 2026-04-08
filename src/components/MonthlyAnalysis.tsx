@@ -266,11 +266,11 @@ export function MonthlyAnalysis({ profile }: MonthlyAnalysisProps) {
             <div className="flex items-center gap-3">
               <Link
                 to="/"
-                className="sm:hidden text-slate-500 dark:text-zinc-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors cursor-pointer"
+                className="sm:hidden text-slate-500 dark:text-zinc-400 hover:text-[#00342b] dark:hover:text-[#94d3c1] transition-colors cursor-pointer"
               >
                 <ArrowLeft className={`h-5 w-5 transform ${isRTL ? 'rotate-180' : ''}`} />
               </Link>
-              <div className="p-2 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-xl shadow-md shadow-indigo-500/25">
+              <div className="p-2 bg-[#00342b] rounded-xl shadow-md shadow-[#00342b]/25">
                 <Wallet className="h-5 w-5 text-white" />
               </div>
               <h1 className="text-base font-semibold tracking-tight text-slate-900 dark:text-white">
@@ -361,8 +361,8 @@ export function MonthlyAnalysis({ profile }: MonthlyAnalysisProps) {
 
               <div className="glass-card p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="p-2 rounded-xl bg-indigo-500/15">
-                    <Calendar className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
+                  <div className="p-2 rounded-xl bg-[#f2f4f5]">
+                    <Calendar className="h-5 w-5 text-[#29695b] dark:text-[#94d3c1]" />
                   </div>
                   <h3 className="text-xs font-semibold text-slate-600 dark:text-zinc-400 tracking-wide uppercase">
                     {t('analysis.daily_averages')}
@@ -515,7 +515,7 @@ export function MonthlyAnalysis({ profile }: MonthlyAnalysisProps) {
                 </div>
                 <div className="space-y-3">
                   {categoryChartData.map((category, index) => (
-                    <div key={category.category} className="flex items-center justify-between py-2 px-3 rounded-xl hover:bg-indigo-50/50 dark:hover:bg-white/[0.02] transition-all duration-150">
+                    <div key={category.category} className="flex items-center justify-between py-2 px-3 rounded-xl hover:bg-[#f2f4f5]/50 dark:hover:bg-white/[0.02] transition-all duration-150">
                       <div className="flex items-center gap-3 flex-1 min-w-0">
                         <div
                           className="w-3 h-3 rounded-full flex-shrink-0"
@@ -607,10 +607,10 @@ export function MonthlyAnalysis({ profile }: MonthlyAnalysisProps) {
                   {tips.map((tip, index) => (
                     <div
                       key={index}
-                      className="flex items-start gap-3 p-3 bg-indigo-50/50 dark:bg-indigo-500/[0.05] rounded-xl transition-colors"
+                      className="flex items-start gap-3 p-3 bg-[#f2f4f5]/50 dark:bg-[#94d3c1]/[0.05] rounded-xl transition-colors"
                     >
-                      <div className="flex-shrink-0 w-6 h-6 bg-indigo-100 dark:bg-indigo-500/20 rounded-full flex items-center justify-center">
-                        <span className="text-indigo-600 dark:text-indigo-400 text-xs font-semibold">
+                      <div className="flex-shrink-0 w-6 h-6 bg-[#eceeef] dark:bg-[#94d3c1]/20 rounded-full flex items-center justify-center">
+                        <span className="text-[#00342b] dark:text-[#94d3c1] text-xs font-semibold">
                           {index + 1}
                         </span>
                       </div>
@@ -636,7 +636,7 @@ export function MonthlyAnalysis({ profile }: MonthlyAnalysisProps) {
 
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-24 sm:bottom-8 right-4 sm:right-8 p-3 bg-gradient-to-br from-indigo-500 to-violet-600 text-white rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-105 transition-all duration-200"
+          className="fixed bottom-24 sm:bottom-8 right-4 sm:right-8 p-3 bg-[#00342b] text-white rounded-xl shadow-lg shadow-[#00342b]/25 hover:shadow-[#00342b]/40 hover:scale-105 transition-all duration-200"
         >
           <ArrowUp className="h-5 w-5" />
         </button>
@@ -650,7 +650,7 @@ export function MonthlyAnalysis({ profile }: MonthlyAnalysisProps) {
               <LayoutDashboard className="h-5 w-5" />
               <span className="text-[10px] font-medium">{t('dashboard.title_short')}</span>
             </Link>
-            <button className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
+            <button className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl bg-[#f2f4f5] dark:bg-[#94d3c1]/10 text-[#00342b] dark:text-[#94d3c1]">
               <BarChart3 className="h-5 w-5" />
               <span className="text-[10px] font-medium">{t('analysis.title')}</span>
             </button>

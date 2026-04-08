@@ -213,7 +213,7 @@ export function CumulativeProfitSelector({ profile }: CumulativeProfitSelectorPr
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
-          <Calendar className="h-4 w-4 text-indigo-500 dark:text-indigo-400" />
+          <Calendar className="h-4 w-4 text-[#29695b] dark:text-[#94d3c1]" />
           <h3 className="text-sm font-semibold tracking-tight text-slate-900 dark:text-white">
             {t('analysis.cumulative_profit')}
           </h3>
@@ -221,7 +221,7 @@ export function CumulativeProfitSelector({ profile }: CumulativeProfitSelectorPr
         <div className="flex gap-1.5">
           <button
             onClick={selectAllMonths}
-            className="text-[11px] px-2 py-1 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-all duration-200"
+            className="text-[11px] px-2 py-1 bg-[#f2f4f5] dark:bg-[#94d3c1]/10 text-[#00342b] dark:text-[#94d3c1] rounded-lg hover:bg-[#eceeef] dark:hover:bg-[#94d3c1]/20 transition-all duration-200"
           >
             {t('common.select_all')}
           </button>
@@ -303,18 +303,18 @@ export function CumulativeProfitSelector({ profile }: CumulativeProfitSelectorPr
                 disabled={fetchingData}
                 className={`p-2.5 rounded-xl border-2 transition-all duration-200 text-left ${
                   isSelected
-                    ? 'border-indigo-500 dark:border-indigo-400 bg-indigo-50/50 dark:bg-indigo-500/10'
-                    : 'border-slate-200 dark:border-white/8 hover:border-indigo-300 dark:hover:border-indigo-500/40'
+                    ? 'border-[#29695b] dark:border-[#94d3c1] bg-[#f2f4f5]/50 dark:bg-[#94d3c1]/10'
+                    : 'border-slate-200 dark:border-white/8 hover:border-[#94d3c1] dark:hover:border-[#94d3c1]/40'
                 } ${fetchingData ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 <div className="flex items-center justify-between mb-1">
                   <span className={`text-xs font-medium truncate flex-1 ${
-                    isSelected ? 'text-indigo-700 dark:text-indigo-300' : 'text-slate-700 dark:text-zinc-300'
+                    isSelected ? 'text-[#00342b] dark:text-[#94d3c1]' : 'text-slate-700 dark:text-zinc-300'
                   }`}>
                     {formatMonth(month)}
                   </span>
                   {isSelected ? (
-                    <CheckCircle2 className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400 flex-shrink-0 ml-1" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-[#29695b] dark:text-[#94d3c1] flex-shrink-0 ml-1" />
                   ) : (
                     <Circle className="h-3.5 w-3.5 text-slate-300 dark:text-zinc-600 flex-shrink-0 ml-1" />
                   )}
@@ -343,10 +343,10 @@ export function CumulativeProfitSelector({ profile }: CumulativeProfitSelectorPr
               const isMonthProfit = data.profit >= 0;
 
               return (
-                <div key={index} className="px-4 py-3 hover:bg-indigo-50/30 dark:hover:bg-white/[0.02] transition-colors">
+                <div key={index} className="px-4 py-3 hover:bg-[#f2f4f5]/30 dark:hover:bg-white/[0.02] transition-colors">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0 flex-1">
-                      <Calendar className="h-3.5 w-3.5 text-indigo-400 dark:text-indigo-500 flex-shrink-0" />
+                      <Calendar className="h-3.5 w-3.5 text-[#29695b]/60 dark:text-[#94d3c1]/60 flex-shrink-0" />
                       <span className="text-sm font-medium text-slate-900 dark:text-white truncate">
                         {formatMonth(data.date)} {format(data.date, 'yyyy')}
                       </span>

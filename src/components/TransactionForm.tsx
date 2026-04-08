@@ -101,18 +101,18 @@ export function TransactionForm({ onClose, onTransactionAdded, transaction, mode
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 animate-fade-in" dir={isRTL ? 'rtl' : 'ltr'} onClick={onClose}>
       <div className="glass-modal w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col animate-slide-up-mobile sm:animate-slide-in" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-white/8 shrink-0">
-          <h2 className="text-base font-semibold tracking-tight text-slate-900 dark:text-white">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#bfc9c4]/30 dark:border-white/8 shrink-0">
+          <h2 className="text-base font-semibold font-manrope tracking-tight text-[#191c1d] dark:text-white">
             {mode === 'edit' ? t('transaction.edit') : t('transaction.new')}
           </h2>
-          <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-zinc-300 hover:bg-slate-100 dark:hover:bg-white/8 rounded-xl transition-all duration-200 cursor-pointer">
+          <button onClick={onClose} className="p-2 text-[#707975] hover:text-[#3f4945] dark:hover:text-zinc-300 hover:bg-[#f2f4f5] dark:hover:bg-white/8 rounded-xl transition-all duration-200 cursor-pointer">
             <X className="h-5 w-5" />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto">
           <form onSubmit={handleSubmit} className="p-5 space-y-4">
-            <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-white/5 rounded-xl">
+            <div className="flex items-center gap-1 p-1 bg-[#f2f4f5] dark:bg-white/5 rounded-xl">
               {['income', 'expense'].map((type) => (
                 <button
                   key={type}
@@ -122,8 +122,8 @@ export function TransactionForm({ onClose, onTransactionAdded, transaction, mode
                     formData.type === type
                       ? type === 'income'
                         ? 'bg-emerald-500 text-white shadow-sm'
-                        : 'bg-rose-500 text-white shadow-sm'
-                      : 'text-slate-500 dark:text-zinc-400'
+                        : 'bg-[#ba1a1a] text-white shadow-sm'
+                      : 'text-[#3f4945] dark:text-zinc-400'
                   }`}
                 >
                   {t(`transaction.${type}`)}
@@ -132,7 +132,7 @@ export function TransactionForm({ onClose, onTransactionAdded, transaction, mode
             </div>
 
             <div className="relative">
-              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-400/60" />
+              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#29695b]/60" />
               <input
                 type="number"
                 step="0.01"
@@ -147,7 +147,7 @@ export function TransactionForm({ onClose, onTransactionAdded, transaction, mode
             <div className="relative">
               {showCustomCategoryInput ? (
                 <div className="relative">
-                  <Tag className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-400/60`} />
+                  <Tag className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-[#29695b]/60`} />
                   <input
                     type="text"
                     value={customCategory}
@@ -158,7 +158,7 @@ export function TransactionForm({ onClose, onTransactionAdded, transaction, mode
                   <button
                     type="button"
                     onClick={() => setShowCustomCategoryInput(false)}
-                    className={`absolute ${isRTL ? 'left-3' : 'right-3'} top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer`}
+                    className={`absolute ${isRTL ? 'left-3' : 'right-3'} top-1/2 -translate-y-1/2 text-[#707975] hover:text-[#3f4945] cursor-pointer`}
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -167,20 +167,20 @@ export function TransactionForm({ onClose, onTransactionAdded, transaction, mode
                 <button
                   type="button"
                   onClick={() => setShowCategories(!showCategories)}
-                  className="w-full flex items-center gap-2.5 px-3 py-3 bg-indigo-50/50 dark:bg-white/[0.04] border border-indigo-100 dark:border-white/10 rounded-xl transition-all duration-200 text-sm hover:border-indigo-300 dark:hover:border-white/20 cursor-pointer"
+                  className="w-full flex items-center gap-2.5 px-3 py-3 bg-[#f2f4f5]/60 dark:bg-white/[0.04] border border-[#e6e8e9] dark:border-white/10 rounded-xl transition-all duration-200 text-sm hover:border-[#94d3c1] dark:hover:border-white/20 cursor-pointer"
                 >
                   <div className={`p-1.5 rounded-lg ${colorMap[selectedCategory.color]}`}>
                     <CategoryIcon className="h-3.5 w-3.5" />
                   </div>
-                  <span className="flex-1 text-left font-medium text-slate-700 dark:text-white text-sm">
+                  <span className="flex-1 text-left font-medium text-[#191c1d] dark:text-white text-sm">
                     {t(`categories.${selectedCategory.id}`)}
                   </span>
-                  <ChevronDown className={`h-4 w-4 text-slate-400 transition-transform ${showCategories ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`h-4 w-4 text-[#707975] transition-transform ${showCategories ? 'rotate-180' : ''}`} />
                 </button>
               )}
 
               {showCategories && (
-                <div className="absolute top-full left-0 right-0 mt-1.5 p-2 bg-white dark:bg-zinc-900 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/50 border border-slate-100 dark:border-white/10 grid grid-cols-2 gap-1.5 z-50 max-h-48 overflow-y-auto">
+                <div className="absolute top-full left-0 right-0 mt-1.5 p-2 bg-white dark:bg-zinc-900 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/50 border border-[#e6e8e9] dark:border-white/10 grid grid-cols-2 gap-1.5 z-50 max-h-48 overflow-y-auto">
                   {CATEGORIES.map((category) => (
                     <button
                       key={category.id}
@@ -197,7 +197,7 @@ export function TransactionForm({ onClose, onTransactionAdded, transaction, mode
                       className={`flex items-center gap-2 p-2.5 rounded-xl transition-all duration-150 text-xs cursor-pointer ${
                         formData.category === category.name
                           ? colorMap[category.color]
-                          : 'hover:bg-indigo-50 dark:hover:bg-white/5 text-slate-700 dark:text-zinc-200'
+                          : 'hover:bg-[#f2f4f5] dark:hover:bg-white/5 text-[#191c1d] dark:text-zinc-200'
                       }`}
                     >
                       <category.icon className="h-3.5 w-3.5" />
@@ -209,7 +209,7 @@ export function TransactionForm({ onClose, onTransactionAdded, transaction, mode
             </div>
 
             <div className="relative">
-              <FileText className="absolute left-3 top-3 h-4 w-4 text-indigo-400/60" />
+              <FileText className="absolute left-3 top-3 h-4 w-4 text-[#29695b]/60" />
               <textarea
                 required
                 value={formData.description}
@@ -221,7 +221,7 @@ export function TransactionForm({ onClose, onTransactionAdded, transaction, mode
             </div>
 
             <div className="relative">
-              <Calendar className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-400/60 pointer-events-none z-10`} />
+              <Calendar className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-[#29695b]/60 pointer-events-none z-10`} />
               <input
                 type="date"
                 required
@@ -231,7 +231,7 @@ export function TransactionForm({ onClose, onTransactionAdded, transaction, mode
                 style={{ color: 'transparent', colorScheme: 'dark' }}
               />
               <div
-                className={`absolute inset-y-0 ${isRTL ? 'right-10 left-4' : 'left-10 right-4'} flex items-center pointer-events-none text-slate-700 dark:text-white text-sm`}
+                className={`absolute inset-y-0 ${isRTL ? 'right-10 left-4' : 'left-10 right-4'} flex items-center pointer-events-none text-[#191c1d] dark:text-white text-sm`}
               >
                 {formData.date ? format(new Date(formData.date), 'dd/MM/yyyy') : ''}
               </div>
@@ -240,7 +240,7 @@ export function TransactionForm({ onClose, onTransactionAdded, transaction, mode
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98] cursor-pointer bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 shadow-lg shadow-indigo-500/20"
+              className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98] cursor-pointer bg-gradient-to-r from-[#29695b] to-[#00342b] hover:from-[#004d40] hover:to-[#00342b] shadow-lg shadow-[#00342b]/20"
             >
               {loading ? (
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

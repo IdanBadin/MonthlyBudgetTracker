@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { format } from 'date-fns';
 import { Trash2, Pencil, Inbox } from 'lucide-react';
 import { Transaction, Profile } from '../types/database';
@@ -43,24 +43,31 @@ export function TransactionList({ transactions, onTransactionUpdated, profile, s
     return category.toLowerCase().replace(/[\s.]/g, '_');
   };
 
-  const transactionsWithBalance = transactions.map((transaction, index) => {
+  // Optimized O(n) running balance calculation with memoization
+  const transactionsWithBalance = useMemo(() => {
+    // Single pass from end to start - O(n) instead of O(n²)
     let runningBalance = startingBalance;
-    for (let i = transactions.length - 1; i >= index; i--) {
+    const result: Array<Transaction & { runningBalance: number }> = [];
+
+    // Process from newest (end) to oldest (start)
+    for (let i = transactions.length - 1; i >= 0; i--) {
       const t = transactions[i];
       if (t.type === 'income') {
         runningBalance += Number(t.amount);
       } else {
         runningBalance -= Number(t.amount);
       }
+      result.unshift({ ...t, runningBalance });
     }
-    return { ...transaction, runningBalance };
-  });
+
+    return result;
+  }, [transactions, startingBalance]);
 
   if (transactions.length === 0) {
     return (
       <div className="glass-card p-10 text-center">
-        <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center mx-auto mb-4">
-          <Inbox className="w-6 h-6 text-indigo-400 dark:text-indigo-500" />
+        <div className="w-12 h-12 rounded-2xl bg-[#f2f4f5] dark:bg-[#94d3c1]/10 flex items-center justify-center mx-auto mb-4">
+          <Inbox className="w-6 h-6 text-[#29695b] dark:text-[#94d3c1]" />
         </div>
         <p className="text-slate-700 dark:text-zinc-300 text-sm font-semibold">No transactions found</p>
         <p className="text-slate-400 dark:text-zinc-500 text-xs mt-1">Add a new transaction to get started</p>
@@ -78,7 +85,7 @@ export function TransactionList({ transactions, onTransactionUpdated, profile, s
             return (
               <div
                 key={transaction.id}
-                className="px-4 py-3.5 transition-all duration-150 hover:bg-indigo-50/30 dark:hover:bg-white/[0.02] cursor-default"
+                className="px-4 py-3.5 transition-all duration-150 hover:bg-[#f2f4f5]/30 dark:hover:bg-white/[0.02] cursor-default"
               >
                 <div className="flex items-start gap-3">
                   <div className={`w-1 h-full min-h-[44px] rounded-full flex-shrink-0 mt-0.5 ${
@@ -109,7 +116,7 @@ export function TransactionList({ transactions, onTransactionUpdated, profile, s
                         <span className="text-[11px] text-slate-400 dark:text-zinc-600">
                           {format(new Date(transaction.date), 'dd/MM/yy')}
                         </span>
-                        <span className="inline-flex px-2 py-0.5 rounded-md text-[10px] font-medium bg-indigo-50 dark:bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 truncate max-w-[100px]">
+                        <span className="inline-flex px-2 py-0.5 rounded-md text-[10px] font-medium bg-[#f2f4f5] dark:bg-[#94d3c1]/10 text-[#29695b] dark:text-[#94d3c1] truncate max-w-[100px]">
                           {(() => {
                             const categoryKey = formatCategoryKey(transaction.category);
                             const translatedCategory = t(`categories.${categoryKey}`);
@@ -119,7 +126,7 @@ export function TransactionList({ transactions, onTransactionUpdated, profile, s
                       </div>
                       <span className={`text-[11px] font-semibold tracking-tight ${
                         transaction.runningBalance >= 0
-                          ? 'text-cyan-600 dark:text-cyan-400'
+                          ? 'text-[#006a63] dark:text-[#71d7cd]'
                           : 'text-rose-500 dark:text-rose-400'
                       }`} dir="ltr">
                         {formatCurrency(transaction.runningBalance)}
@@ -130,7 +137,7 @@ export function TransactionList({ transactions, onTransactionUpdated, profile, s
                   <div className="flex items-center gap-0.5 flex-shrink-0 mt-0.5">
                     <button
                       onClick={() => setEditingTransaction(transaction)}
-                      className="p-1.5 text-slate-300 dark:text-zinc-600 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-lg transition-all duration-150 cursor-pointer"
+                      className="p-1.5 text-[#bfc9c4] dark:text-zinc-600 hover:text-[#00342b] dark:hover:text-[#94d3c1] hover:bg-[#f2f4f5] dark:hover:bg-[#94d3c1]/10 rounded-lg transition-all duration-150 cursor-pointer"
                     >
                       <Pencil className="h-3.5 w-3.5" />
                     </button>

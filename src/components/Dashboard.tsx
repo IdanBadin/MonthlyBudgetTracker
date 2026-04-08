@@ -297,15 +297,15 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20 sm:pb-6">
+    <div className="min-h-screen bg-[#f8fafb] dark:bg-slate-950 pb-20 sm:pb-6">
       <div className="fixed top-0 left-0 right-0 z-30 modern-header">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-14">
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="h-8 w-8 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-indigo-500 to-violet-600 shadow-md shadow-indigo-500/30">
+              <div className="h-8 w-8 rounded-xl flex items-center justify-center flex-shrink-0 bg-[#00342b] shadow-md shadow-[#00342b]/30">
                 <Wallet className="h-4 w-4 text-white" />
               </div>
-              <h1 className="text-sm font-semibold text-slate-800 dark:text-white tracking-tight truncate">
+              <h1 className="text-sm font-semibold font-manrope text-[#191c1d] dark:text-white tracking-tight truncate">
                 {t('dashboard.financial_dashboard')}
               </h1>
             </div>
@@ -313,21 +313,21 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
             <div className="hidden sm:flex items-center gap-1.5">
               <Link
                 to="/analysis"
-                className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 dark:text-zinc-400 hover:bg-indigo-50 dark:hover:bg-white/5 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 cursor-pointer"
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium text-[#3f4945] dark:text-zinc-400 hover:bg-[#f2f4f5] dark:hover:bg-white/5 hover:text-[#00342b] dark:hover:text-[#94d3c1] transition-all duration-200 cursor-pointer"
               >
                 <BarChart3 className="h-3.5 w-3.5" />
                 <span>{t('analysis.title')}</span>
               </Link>
               <button
                 onClick={() => setIsSettingsOpen(true)}
-                className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 dark:text-zinc-400 hover:bg-indigo-50 dark:hover:bg-white/5 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 cursor-pointer"
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium text-[#3f4945] dark:text-zinc-400 hover:bg-[#f2f4f5] dark:hover:bg-white/5 hover:text-[#00342b] dark:hover:text-[#94d3c1] transition-all duration-200 cursor-pointer"
               >
                 <Settings className="h-3.5 w-3.5" />
                 <span>{t('settings.title')}</span>
               </button>
               <button
                 onClick={handleSignOut}
-                className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 dark:text-zinc-400 hover:bg-indigo-50 dark:hover:bg-white/5 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 cursor-pointer"
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium text-[#3f4945] dark:text-zinc-400 hover:bg-[#f2f4f5] dark:hover:bg-white/5 hover:text-[#00342b] dark:hover:text-[#94d3c1] transition-all duration-200 cursor-pointer"
               >
                 <LogOut className="h-3.5 w-3.5" />
               </button>
@@ -351,7 +351,7 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
               <div className="flex items-center gap-1">
                 <button
                   onClick={toggleBalanceVisibility}
-                  className="p-1 text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors rounded cursor-pointer"
+                  className="p-1 text-[#707975] hover:text-[#00342b] dark:hover:text-[#94d3c1] transition-colors rounded cursor-pointer"
                 >
                   {showBalances ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
                 </button>
@@ -360,7 +360,7 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
                     setNewBalance(startingBalance?.toString() || '');
                     setIsEditingBalance(true);
                   }}
-                  className="p-1 text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors rounded cursor-pointer text-xs"
+                  className="p-1 text-[#707975] hover:text-[#00342b] dark:hover:text-[#94d3c1] transition-colors rounded cursor-pointer text-xs"
                 >
                   {t('common.edit') || 'Edit'}
                 </button>
@@ -375,7 +375,7 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
                   className="modern-input px-2 py-1 text-sm flex-1"
                   placeholder="0"
                 />
-                <button onClick={handleSaveBalance} className="px-2.5 py-1 bg-gradient-to-r from-indigo-500 to-violet-600 text-white rounded-lg text-xs font-semibold cursor-pointer">
+                <button onClick={handleSaveBalance} className="px-2.5 py-1 bg-gradient-to-r from-[#29695b] to-[#00342b] text-white rounded-lg text-xs font-semibold cursor-pointer">
                   {t('settings.save') || 'Save'}
                 </button>
                 <button onClick={() => setIsEditingBalance(false)} className="px-2 py-1 bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-zinc-400 rounded-lg text-xs cursor-pointer">
@@ -383,7 +383,7 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
                 </button>
               </div>
             ) : (
-              <p className="text-xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400" style={{ fontVariantNumeric: 'tabular-nums' }}>
+              <p className="text-xl font-bold tracking-tight text-[#00342b] dark:text-[#94d3c1]" style={{ fontVariantNumeric: 'tabular-nums' }}>
                 {formatBalanceDisplay(startingBalance || 0)}
               </p>
             )}
@@ -441,8 +441,8 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
                 onClick={() => setActiveTab(tab)}
                 className={`flex-1 py-2 px-2 rounded-lg text-xs font-medium transition-all duration-200 ${
                   activeTab === tab
-                    ? 'bg-white dark:bg-white/10 text-indigo-600 dark:text-indigo-400 shadow-sm font-semibold'
-                    : 'text-slate-500 dark:text-zinc-500 cursor-pointer'
+                    ? 'bg-white dark:bg-white/10 text-[#00342b] dark:text-[#94d3c1] shadow-sm font-semibold'
+                    : 'text-[#3f4945] dark:text-zinc-500 cursor-pointer'
                 }`}
               >
                 {tab === 'current' ? t('dashboard.current_balance') : tab === 'yearly' ? t('analysis.yearly_view') : t('analysis.cumulative_profit')}
@@ -454,13 +454,13 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">{t('dashboard.current_balance')}</p>
-                <p className={`text-2xl font-bold tracking-tight ${balance >= 0 ? 'text-indigo-600 dark:text-indigo-400' : 'text-rose-600 dark:text-rose-400'}`}>
+                <p className={`text-2xl font-bold tracking-tight ${balance >= 0 ? 'text-[#00342b] dark:text-[#94d3c1]' : 'text-rose-600 dark:text-rose-400'}`}>
                   {formatBalanceDisplay(balance)}
                 </p>
-                <p className="text-[10px] text-slate-400 dark:text-zinc-600 mt-0.5">{t('dashboard.available')}</p>
+                <p className="text-[10px] text-[#707975] dark:text-zinc-600 mt-0.5">{t('dashboard.available')}</p>
               </div>
-              <div className="h-10 w-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center">
-                <DollarSign className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+              <div className="h-10 w-10 rounded-xl bg-[#f2f4f5] dark:bg-[#94d3c1]/10 flex items-center justify-center">
+                <DollarSign className="h-5 w-5 text-[#00342b] dark:text-[#94d3c1]" />
               </div>
             </div>
           ) : activeTab === 'yearly' ? (
@@ -497,8 +497,8 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
 
             {transfers.length > 0 && (
               <div className="mt-4">
-                <h3 className="text-sm font-semibold text-slate-800 dark:text-white mb-3 flex items-center gap-2 tracking-tight mt-4">
-                  <ArrowLeftRight className="h-4 w-4 text-indigo-500" />
+                <h3 className="text-sm font-semibold text-[#191c1d] dark:text-white mb-3 flex items-center gap-2 tracking-tight mt-4">
+                  <ArrowLeftRight className="h-4 w-4 text-[#00342b]" />
                   {t('transfer.internal_transfers')}
                 </h3>
                 <InternalTransferList transfers={transfers} onTransferUpdated={fetchTransfers} profile={profile} />
@@ -509,21 +509,21 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 sm:hidden z-40">
-        <div className="mx-4 mb-4 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-2xl rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/40" style={{ WebkitBackdropFilter: 'blur(40px) saturate(1.3)', backdropFilter: 'blur(40px) saturate(1.3)' }}>
+        <div className="mx-4 mb-4 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-2xl border border-[#bfc9c4]/30 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/40" style={{ WebkitBackdropFilter: 'blur(40px) saturate(1.3)', backdropFilter: 'blur(40px) saturate(1.3)' }}>
           <div className="flex items-center justify-around h-14 px-2">
-            <button className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
+            <button className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl bg-[#f2f4f5] dark:bg-[#94d3c1]/10 text-[#00342b] dark:text-[#94d3c1]">
               <LayoutDashboard className="h-5 w-5" />
               <span className="text-[10px] font-medium">{t('dashboard.title_short')}</span>
             </button>
-            <Link to="/analysis" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl text-slate-400 dark:text-zinc-500 hover:text-slate-600 dark:hover:text-zinc-300 transition-colors cursor-pointer">
+            <Link to="/analysis" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl text-[#707975] dark:text-zinc-500 hover:text-[#3f4945] dark:hover:text-zinc-300 transition-colors cursor-pointer">
               <BarChart3 className="h-5 w-5" />
               <span className="text-[10px] font-medium">{t('analysis.title')}</span>
             </Link>
-            <button onClick={() => setIsSettingsOpen(true)} className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl text-slate-400 dark:text-zinc-500 hover:text-slate-600 dark:hover:text-zinc-300 transition-colors cursor-pointer">
+            <button onClick={() => setIsSettingsOpen(true)} className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl text-[#707975] dark:text-zinc-500 hover:text-[#3f4945] dark:hover:text-zinc-300 transition-colors cursor-pointer">
               <Settings className="h-5 w-5" />
               <span className="text-[10px] font-medium">{t('settings.title')}</span>
             </button>
-            <button onClick={handleSignOut} className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl text-slate-400 dark:text-zinc-500 hover:text-slate-600 dark:hover:text-zinc-300 transition-colors cursor-pointer">
+            <button onClick={handleSignOut} className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl text-[#707975] dark:text-zinc-500 hover:text-[#3f4945] dark:hover:text-zinc-300 transition-colors cursor-pointer">
               <LogOut className="h-5 w-5" />
               <span className="text-[10px] font-medium">{t('common.sign_out')}</span>
             </button>

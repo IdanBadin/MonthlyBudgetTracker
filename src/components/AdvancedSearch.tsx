@@ -149,7 +149,7 @@ export function AdvancedSearch({ profile, onSearch, minAllowedDate }: AdvancedSe
     <div className="modern-card p-3 mb-1" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="flex items-center gap-2">
         <div className="relative flex-1">
-          <Search className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-400`} />
+          <Search className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-[#29695b]/60`} />
           <input
             type="text"
             value={filters.searchTerm}
@@ -162,8 +162,8 @@ export function AdvancedSearch({ profile, onSearch, minAllowedDate }: AdvancedSe
           onClick={() => setIsExpanded(!isExpanded)}
           className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 cursor-pointer ${
             isExpanded || hasActiveFilters
-              ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400'
-              : 'bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400'
+              ? 'bg-[#f2f4f5] dark:bg-[#94d3c1]/10 text-[#00342b] dark:text-[#94d3c1]'
+              : 'bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 hover:bg-[#f2f4f5] dark:hover:bg-[#94d3c1]/10 hover:text-[#00342b] dark:hover:text-[#94d3c1]'
           }`}
         >
           <Filter className="h-3.5 w-3.5" />
@@ -180,8 +180,8 @@ export function AdvancedSearch({ profile, onSearch, minAllowedDate }: AdvancedSe
                 onClick={() => handleFilterChange('type', type)}
                 className={`flex-1 py-1.5 rounded-md text-xs font-medium transition-all duration-200 cursor-pointer ${
                   filters.type === type
-                    ? 'bg-white dark:bg-zinc-700 text-indigo-600 dark:text-indigo-400 shadow-sm'
-                    : 'text-slate-500 dark:text-zinc-400 hover:text-indigo-500'
+                    ? 'bg-white dark:bg-zinc-700 text-[#00342b] dark:text-[#94d3c1] shadow-sm'
+                    : 'text-slate-500 dark:text-zinc-400 hover:text-[#00342b]'
                 }`}
               >
                 {type === '' ? t('search.all') : t(`transaction.${type}`)}
@@ -247,7 +247,7 @@ export function AdvancedSearch({ profile, onSearch, minAllowedDate }: AdvancedSe
                   className="modern-input text-xs flex-1"
                   placeholder={t('search.filter_name')}
                 />
-                <button onClick={handleSaveFilter} className="px-3 py-1.5 bg-gradient-to-r from-indigo-500 to-violet-600 text-white rounded-lg text-xs font-medium shadow-sm cursor-pointer">
+                <button onClick={handleSaveFilter} className="px-3 py-1.5 bg-gradient-to-r from-[#29695b] to-[#00342b] text-white rounded-lg text-xs font-medium shadow-sm cursor-pointer">
                   {t('settings.save')}
                 </button>
                 <button onClick={() => setShowSaveInput(false)} className="px-2 py-1.5 bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 rounded-lg text-xs cursor-pointer">
@@ -256,12 +256,12 @@ export function AdvancedSearch({ profile, onSearch, minAllowedDate }: AdvancedSe
               </div>
             ) : (
               <>
-                <button onClick={() => setShowSaveInput(true)} className="flex items-center gap-1 px-3 py-1.5 bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 rounded-lg text-xs font-medium hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 cursor-pointer">
+                <button onClick={() => setShowSaveInput(true)} className="flex items-center gap-1 px-3 py-1.5 bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 rounded-lg text-xs font-medium hover:bg-[#f2f4f5] dark:hover:bg-[#94d3c1]/10 hover:text-[#00342b] dark:hover:text-[#94d3c1] transition-all duration-200 cursor-pointer">
                   <Save className="h-3 w-3" />
                   <span>{t('search.save_filter')}</span>
                 </button>
                 {hasActiveFilters && (
-                  <button onClick={handleReset} className="text-indigo-500 hover:text-indigo-600 text-xs font-medium cursor-pointer px-3 py-1.5 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-all duration-200">
+                  <button onClick={handleReset} className="text-[#29695b] hover:text-[#00342b] text-xs font-medium cursor-pointer px-3 py-1.5 rounded-lg hover:bg-[#f2f4f5] dark:hover:bg-[#94d3c1]/10 transition-all duration-200">
                     {t('search.reset')}
                   </button>
                 )}
@@ -272,9 +272,9 @@ export function AdvancedSearch({ profile, onSearch, minAllowedDate }: AdvancedSe
           {savedFilters.length > 0 && (
             <div className="flex flex-wrap gap-1.5 pt-1">
               {savedFilters.map((sf) => (
-                <div key={sf.id} className="flex items-center gap-1 px-2 py-1 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-lg text-[10px] font-medium">
+                <div key={sf.id} className="flex items-center gap-1 px-2 py-1 bg-[#f2f4f5] dark:bg-[#94d3c1]/10 text-[#00342b] dark:text-[#94d3c1] rounded-lg text-[10px] font-medium">
                   <button onClick={() => handleLoadFilter(sf)} className="cursor-pointer">{sf.name}</button>
-                  <button onClick={() => handleDeleteFilter(sf.id)} className="text-indigo-400 hover:text-rose-500 transition-colors cursor-pointer">
+                  <button onClick={() => handleDeleteFilter(sf.id)} className="text-[#29695b]/60 hover:text-rose-500 transition-colors cursor-pointer">
                     <X className="h-2.5 w-2.5" />
                   </button>
                 </div>

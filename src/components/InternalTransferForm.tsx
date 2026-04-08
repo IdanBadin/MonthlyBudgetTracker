@@ -79,7 +79,7 @@ export function InternalTransferForm({ onClose, onTransferAdded, transfer, mode 
         <div className="flex-1 overflow-y-auto">
           <form onSubmit={handleSubmit} className="p-5 space-y-4">
             <div className="relative">
-              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-400/60" />
+              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#29695b]/60" />
               <input
                 type="number"
                 step="0.01"
@@ -123,7 +123,7 @@ export function InternalTransferForm({ onClose, onTransferAdded, transfer, mode 
             </div>
 
             <div className="relative">
-              <FileText className="absolute left-3 top-3 h-4 w-4 text-indigo-400/60" />
+              <FileText className="absolute left-3 top-3 h-4 w-4 text-[#29695b]/60" />
               <textarea
                 required
                 value={formData.description}
@@ -135,7 +135,7 @@ export function InternalTransferForm({ onClose, onTransferAdded, transfer, mode 
             </div>
 
             <div className="relative">
-              <Calendar className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-400/60 pointer-events-none z-10`} />
+              <Calendar className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-[#29695b]/60 pointer-events-none z-10`} />
               <input
                 type="date"
                 required
@@ -152,7 +152,7 @@ export function InternalTransferForm({ onClose, onTransferAdded, transfer, mode 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98] cursor-pointer bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 shadow-lg shadow-indigo-500/20"
+              className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98] cursor-pointer bg-gradient-to-r from-[#29695b] to-[#00342b] hover:from-[#004d40] hover:to-[#00342b] shadow-lg shadow-[#00342b]/20"
             >
               {loading ? (
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

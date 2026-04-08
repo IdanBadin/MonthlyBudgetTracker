@@ -49,7 +49,7 @@ export function InternalTransferList({ transfers, onTransferUpdated, profile }: 
           return (
             <div key={transfer.id} className="py-3 transition-colors">
               <div className="flex items-start gap-3">
-                <div className="w-1 min-h-[36px] rounded-full flex-shrink-0 mt-0.5 bg-indigo-400" />
+                <div className="w-1 min-h-[36px] rounded-full flex-shrink-0 mt-0.5 bg-[#29695b]" />
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-baseline justify-between gap-2 mb-0.5">
@@ -62,7 +62,7 @@ export function InternalTransferList({ transfers, onTransferUpdated, profile }: 
                     >
                       {transfer.description}
                     </p>
-                    <span className="text-sm font-semibold tabular-nums text-indigo-600 dark:text-indigo-400 flex-shrink-0">
+                    <span className="text-sm font-semibold tabular-nums text-[#006a63] dark:text-[#71d7cd] flex-shrink-0">
                       {formatCurrency(Number(transfer.amount))}
                     </span>
                   </div>
@@ -73,7 +73,7 @@ export function InternalTransferList({ transfers, onTransferUpdated, profile }: 
                     </span>
                     <span className="text-[11px] text-slate-500 dark:text-zinc-400 flex items-center gap-1" dir="ltr">
                       {t(`accounts.${transfer.from_account}`)}
-                      <ArrowRight className="h-2.5 w-2.5 flex-shrink-0 text-indigo-400/60" />
+                      <ArrowRight className="h-2.5 w-2.5 flex-shrink-0 text-[#29695b]/60" />
                       {t(`accounts.${transfer.to_account}`)}
                     </span>
                   </div>
@@ -82,7 +82,7 @@ export function InternalTransferList({ transfers, onTransferUpdated, profile }: 
                 <div className="flex items-center gap-1 flex-shrink-0 mt-0.5">
                   <button
                     onClick={() => setEditingTransfer(transfer)}
-                    className="p-1.5 text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-lg transition-all duration-200 cursor-pointer"
+                    className="p-1.5 text-slate-400 hover:text-[#00342b] dark:hover:text-[#94d3c1] hover:bg-[#f2f4f5] dark:hover:bg-[#94d3c1]/10 rounded-lg transition-all duration-200 cursor-pointer"
                   >
                     <Pencil className="h-3.5 w-3.5" />
                   </button>

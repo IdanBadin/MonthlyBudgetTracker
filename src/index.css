@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,29 +6,29 @@
 
 @layer base {
   :root {
-    /* Brand Colors */
-    --color-primary: #6366F1;
-    --color-primary-rgb: 99, 102, 241;
-    --color-secondary: #4F46E5;
-    --color-secondary-rgb: 79, 70, 229;
-    --color-accent: #10B981;
-    --color-accent-rgb: 16, 185, 129;
+    /* Brand Colors — Fiscal Atelier MD3 Teal/Forest theme */
+    --color-primary: #00342b;
+    --color-primary-rgb: 0, 52, 43;
+    --color-secondary: #006a63;
+    --color-secondary-rgb: 0, 106, 99;
+    --color-accent: #8bf1e6;
+    --color-accent-rgb: 139, 241, 230;
     --color-warning: #F59E0B;
     --color-warning-rgb: 245, 158, 11;
-    --color-danger: #F43F5E;
-    --color-danger-rgb: 244, 63, 94;
+    --color-danger: #ba1a1a;
+    --color-danger-rgb: 186, 26, 26;
 
     /* Light Mode Surfaces */
-    --color-bg: #F8F7FF;
-    --color-surface: #FFFFFF;
-    --color-surface-elevated: #F4F3FF;
-    --color-border: rgba(99, 102, 241, 0.12);
-    --color-border-subtle: rgba(99, 102, 241, 0.06);
+    --color-bg: #f8fafb;
+    --color-surface: #ffffff;
+    --color-surface-elevated: #f2f4f5;
+    --color-border: rgba(0, 52, 43, 0.10);
+    --color-border-subtle: rgba(0, 52, 43, 0.05);
 
     /* Glow Effects */
-    --glow-primary: 0 0 24px rgba(99, 102, 241, 0.18);
+    --glow-primary: 0 0 24px rgba(0, 52, 43, 0.15);
     --glow-income: 0 0 20px rgba(16, 185, 129, 0.15);
-    --glow-expense: 0 0 20px rgba(244, 63, 94, 0.15);
+    --glow-expense: 0 0 20px rgba(186, 26, 26, 0.15);
   }
 
   .dark {
@@ -38,9 +38,9 @@
     --color-border: rgba(255, 255, 255, 0.08);
     --color-border-subtle: rgba(255, 255, 255, 0.04);
 
-    --glow-primary: 0 0 32px rgba(129, 140, 248, 0.2);
+    --glow-primary: 0 0 32px rgba(148, 211, 193, 0.2);
     --glow-income: 0 0 24px rgba(16, 185, 129, 0.2);
-    --glow-expense: 0 0 24px rgba(244, 63, 94, 0.2);
+    --glow-expense: 0 0 24px rgba(186, 26, 26, 0.2);
   }
 
   html {
@@ -50,7 +50,7 @@
 
   body {
     background: var(--color-bg);
-    color: #0F172A;
+    color: #191c1d;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     user-select: none;
@@ -70,11 +70,11 @@
     position: fixed;
     inset: 0;
     background:
-      radial-gradient(ellipse at 20% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 0%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
-      radial-gradient(ellipse at 0% 50%, rgba(99, 102, 241, 0.03) 0%, transparent 40%),
-      radial-gradient(ellipse at 100% 50%, rgba(139, 92, 246, 0.03) 0%, transparent 40%);
+      radial-gradient(ellipse at 20% 0%, rgba(0, 52, 43, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 0%, rgba(0, 106, 99, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(139, 241, 230, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 0% 50%, rgba(0, 52, 43, 0.02) 0%, transparent 40%),
+      radial-gradient(ellipse at 100% 50%, rgba(0, 106, 99, 0.02) 0%, transparent 40%);
     pointer-events: none;
     z-index: 0;
   }
@@ -82,11 +82,11 @@
   /* Dark mode gradient mesh background */
   .dark body::before {
     background:
-      radial-gradient(ellipse at 20% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 0%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 100%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 0% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 40%),
-      radial-gradient(ellipse at 100% 50%, rgba(139, 92, 246, 0.05) 0%, transparent 40%);
+      radial-gradient(ellipse at 20% 0%, rgba(0, 52, 43, 0.2) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 0%, rgba(0, 106, 99, 0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(139, 241, 230, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 0% 50%, rgba(0, 52, 43, 0.06) 0%, transparent 40%),
+      radial-gradient(ellipse at 100% 50%, rgba(0, 106, 99, 0.06) 0%, transparent 40%);
   }
 
   body.modal-open {
@@ -110,13 +110,13 @@
   /* ── Cards ── */
   .modern-card {
     position: relative;
-    background: rgba(255, 255, 255, 0.65);
+    background: rgba(255, 255, 255, 0.72);
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(191, 201, 196, 0.35);
     box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.04),
-      0 4px 16px rgba(99, 102, 241, 0.06),
-      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+      0 1px 2px rgba(25, 28, 29, 0.04),
+      0 4px 16px rgba(0, 52, 43, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
@@ -129,7 +129,7 @@
       0 1px 2px rgba(0, 0, 0, 0.3),
       0 4px 24px rgba(0, 0, 0, 0.4),
       inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      inset 0 0 60px rgba(99, 102, 241, 0.015);
+      inset 0 0 60px rgba(0, 52, 43, 0.02);
     backdrop-filter: blur(16px) saturate(1.15);
     -webkit-backdrop-filter: blur(16px) saturate(1.15);
   }
@@ -141,8 +141,8 @@
   .stat-card:hover {
     transform: translateY(-2px);
     box-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.06),
-      0 8px 24px rgba(99, 102, 241, 0.12),
+      0 2px 4px rgba(25, 28, 29, 0.06),
+      0 8px 24px rgba(0, 52, 43, 0.10),
       inset 0 1px 0 rgba(255, 255, 255, 0.9);
   }
 
@@ -151,7 +151,7 @@
       0 2px 4px rgba(0, 0, 0, 0.4),
       0 8px 32px rgba(0, 0, 0, 0.5),
       inset 0 1px 0 rgba(255, 255, 255, 0.08),
-      inset 0 0 40px rgba(99, 102, 241, 0.03);
+      inset 0 0 40px rgba(0, 52, 43, 0.04);
   }
 
   .stat-card:active {
@@ -164,27 +164,27 @@
   }
 
   .expense-card {
-    border-top: 2px solid #F43F5E;
+    border-top: 2px solid #ba1a1a;
   }
 
   .balance-card {
-    border-top: 2px solid #6366F1;
+    border-top: 2px solid #00342b;
   }
 
   .floating-card {
     @apply modern-card;
   }
 
-  /* ── Glass Card (Enhanced Glassmorphism) ── */
+  /* ── Glass Card ── */
   .glass-card {
     position: relative;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.75);
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(191, 201, 196, 0.35);
     box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.04),
-      0 4px 16px rgba(99, 102, 241, 0.06),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      0 1px 2px rgba(25, 28, 29, 0.04),
+      0 4px 16px rgba(0, 52, 43, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
@@ -197,15 +197,15 @@
       0 1px 2px rgba(0, 0, 0, 0.3),
       0 4px 24px rgba(0, 0, 0, 0.4),
       inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      inset 0 0 80px rgba(99, 102, 241, 0.02);
+      inset 0 0 80px rgba(0, 52, 43, 0.02);
     backdrop-filter: blur(20px) saturate(1.2);
     -webkit-backdrop-filter: blur(20px) saturate(1.2);
   }
 
   .glass-card:hover {
     box-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.06),
-      0 8px 32px rgba(99, 102, 241, 0.1),
+      0 2px 4px rgba(25, 28, 29, 0.06),
+      0 8px 32px rgba(0, 52, 43, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.9);
   }
 
@@ -214,49 +214,49 @@
       0 2px 4px rgba(0, 0, 0, 0.4),
       0 8px 40px rgba(0, 0, 0, 0.5),
       inset 0 1px 0 rgba(255, 255, 255, 0.08),
-      inset 0 0 80px rgba(99, 102, 241, 0.03);
+      inset 0 0 80px rgba(0, 52, 43, 0.04);
     border-color: rgba(255, 255, 255, 0.1);
   }
 
   /* ── Buttons ── */
   .modern-button {
     @apply px-5 py-2.5 rounded-xl font-medium text-white transition-all duration-200;
-    background: #6366F1;
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+    background: #00342b;
+    box-shadow: 0 2px 8px rgba(0, 52, 43, 0.3);
     letter-spacing: -0.01em;
   }
 
   .modern-button:hover {
-    background: #4F46E5;
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+    background: #004d40;
+    box-shadow: 0 4px 16px rgba(0, 52, 43, 0.4);
     transform: translateY(-1px);
   }
 
   .modern-button:active {
     transform: scale(0.97);
-    box-shadow: 0 1px 4px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 1px 4px rgba(0, 52, 43, 0.2);
   }
 
   .primary-button {
     @apply modern-button;
-    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
-    box-shadow: 0 2px 12px rgba(99, 102, 241, 0.35);
+    background: linear-gradient(135deg, #29695b 0%, #00342b 100%);
+    box-shadow: 0 2px 12px rgba(0, 52, 43, 0.30);
   }
 
   .primary-button:hover {
-    background: linear-gradient(135deg, #4F46E5 0%, #4338CA 100%);
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.45);
+    background: linear-gradient(135deg, #004d40 0%, #00342b 100%);
+    box-shadow: 0 4px 20px rgba(0, 52, 43, 0.40);
   }
 
   .success-button {
     @apply modern-button;
-    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-    box-shadow: 0 2px 12px rgba(16, 185, 129, 0.3);
+    background: linear-gradient(135deg, #006a63 0%, #004d40 100%);
+    box-shadow: 0 2px 12px rgba(0, 106, 99, 0.30);
   }
 
   .success-button:hover {
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
-    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+    background: linear-gradient(135deg, #004d40 0%, #00342b 100%);
+    box-shadow: 0 4px 20px rgba(0, 106, 99, 0.40);
   }
 
   .warning-button {
@@ -267,29 +267,29 @@
 
   .danger-button {
     @apply modern-button;
-    background: linear-gradient(135deg, #F43F5E 0%, #E11D48 100%);
-    box-shadow: 0 2px 12px rgba(244, 63, 94, 0.3);
+    background: linear-gradient(135deg, #ba1a1a 0%, #93000a 100%);
+    box-shadow: 0 2px 12px rgba(186, 26, 26, 0.3);
   }
 
   /* ── Inputs ── */
   .modern-input {
     @apply w-full px-4 py-2.5 rounded-xl text-sm transition-all duration-200;
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(99, 102, 241, 0.12);
-    color: #0F172A;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(191, 201, 196, 0.5);
+    color: #191c1d;
     outline: none;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
 
   .modern-input::placeholder {
-    color: #94A3B8;
+    color: #707975;
   }
 
   .modern-input:focus {
-    background: rgba(99, 102, 241, 0.06);
-    border-color: rgba(99, 102, 241, 0.4);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    background: rgba(0, 52, 43, 0.04);
+    border-color: rgba(0, 52, 43, 0.35);
+    box-shadow: 0 0 0 3px rgba(0, 52, 43, 0.08);
   }
 
   .dark .modern-input {
@@ -302,16 +302,16 @@
 
   .dark .modern-input:focus {
     background: rgba(255, 255, 255, 0.07);
-    border-color: rgba(129, 140, 248, 0.5);
-    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.1);
+    border-color: rgba(148, 211, 193, 0.5);
+    box-shadow: 0 0 0 3px rgba(148, 211, 193, 0.1);
   }
 
   /* ── Header ── */
   .modern-header {
-    background: rgba(248, 247, 255, 0.75);
+    background: rgba(248, 250, 251, 0.80);
     backdrop-filter: blur(24px) saturate(1.2);
     -webkit-backdrop-filter: blur(24px) saturate(1.2);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    border-bottom: 1px solid rgba(191, 201, 196, 0.30);
     padding-top: env(safe-area-inset-top);
   }
 
@@ -337,7 +337,7 @@
   /* ── Section title ── */
   .section-title {
     @apply text-lg font-semibold mb-4;
-    color: #0F172A;
+    color: #191c1d;
     letter-spacing: -0.02em;
   }
 
@@ -352,27 +352,27 @@
 
   .month-button-selected {
     @apply month-button text-white;
-    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+    background: linear-gradient(135deg, #29695b 0%, #00342b 100%);
+    box-shadow: 0 2px 8px rgba(0, 52, 43, 0.35);
   }
 
   .month-button-today {
     @apply month-button;
-    background: rgba(99, 102, 241, 0.1);
-    color: #6366F1;
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    background: rgba(0, 52, 43, 0.08);
+    color: #00342b;
+    border: 1px solid rgba(0, 52, 43, 0.18);
   }
 
   .dark .month-button-today {
-    background: rgba(129, 140, 248, 0.12);
-    color: #818CF8;
-    border-color: rgba(129, 140, 248, 0.2);
+    background: rgba(148, 211, 193, 0.12);
+    color: #94d3c1;
+    border-color: rgba(148, 211, 193, 0.2);
   }
 
   .month-button-default {
     @apply month-button;
-    background: rgba(99, 102, 241, 0.04);
-    color: #64748B;
+    background: rgba(0, 52, 43, 0.04);
+    color: #3f4945;
   }
 
   .dark .month-button-default {
@@ -386,7 +386,7 @@
 
   /* ── Glass overlay (for modals) ── */
   .glass-overlay {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(25, 28, 29, 0.35);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }
@@ -399,12 +399,12 @@
 
   /* ── Glass modal ── */
   .glass-modal {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.88);
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(191, 201, 196, 0.4);
     box-shadow:
-      0 4px 6px rgba(0, 0, 0, 0.05),
-      0 24px 48px rgba(0, 0, 0, 0.12),
+      0 4px 6px rgba(25, 28, 29, 0.05),
+      0 24px 48px rgba(25, 28, 29, 0.10),
       inset 0 1px 0 rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
@@ -417,7 +417,7 @@
       0 4px 6px rgba(0, 0, 0, 0.3),
       0 24px 60px rgba(0, 0, 0, 0.6),
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      inset 0 0 80px rgba(99, 102, 241, 0.03);
+      inset 0 0 80px rgba(0, 52, 43, 0.03);
     backdrop-filter: blur(24px) saturate(1.3);
     -webkit-backdrop-filter: blur(24px) saturate(1.3);
   }
@@ -442,12 +442,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.2);
+  background: rgba(0, 52, 43, 0.18);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.4);
+  background: rgba(0, 52, 43, 0.35);
 }
 
 /* ── Animations ── */
@@ -484,8 +484,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 12px rgba(99, 102, 241, 0.2); }
-  50% { box-shadow: 0 0 24px rgba(99, 102, 241, 0.4); }
+  0%, 100% { box-shadow: 0 0 12px rgba(0, 52, 43, 0.2); }
+  50% { box-shadow: 0 0 24px rgba(0, 52, 43, 0.4); }
 }
 
 @keyframes float {
@@ -507,9 +507,9 @@
   background-image: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(99, 102, 241, 0.06) 40%,
-    rgba(99, 102, 241, 0.12) 50%,
-    rgba(99, 102, 241, 0.06) 60%,
+    rgba(0, 52, 43, 0.05) 40%,
+    rgba(0, 52, 43, 0.10) 50%,
+    rgba(0, 52, 43, 0.05) 60%,
     transparent 100%
   );
   animation: skeleton-shimmer 1.8s ease-in-out infinite;
@@ -519,9 +519,9 @@
   background-image: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(129, 140, 248, 0.04) 40%,
-    rgba(129, 140, 248, 0.08) 50%,
-    rgba(129, 140, 248, 0.04) 60%,
+    rgba(148, 211, 193, 0.04) 40%,
+    rgba(148, 211, 193, 0.08) 50%,
+    rgba(148, 211, 193, 0.04) 60%,
     transparent 100%
   );
 }
@@ -571,7 +571,7 @@
 
 /* ── Gradient text ── */
 .gradient-text {
-  background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%);
+  background: linear-gradient(135deg, #00342b 0%, #29695b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -585,7 +585,7 @@
 }
 
 .expense-gradient-text {
-  background: linear-gradient(135deg, #F43F5E 0%, #FB7185 100%);
+  background: linear-gradient(135deg, #ba1a1a 0%, #e11d48 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

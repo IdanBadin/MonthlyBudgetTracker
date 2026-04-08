@@ -169,7 +169,7 @@ export function YearlyProfitLoss({ profile, selectedYear, onYearChange }: Yearly
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
-            <BarChart3 className="h-4 w-4 text-indigo-500 dark:text-indigo-400" />
+            <BarChart3 className="h-4 w-4 text-[#29695b] dark:text-[#94d3c1]" />
             <h3 className="text-sm font-semibold tracking-tight text-slate-900 dark:text-white">
               {t('analysis.yearly_profit_loss')}
             </h3>
@@ -187,7 +187,7 @@ export function YearlyProfitLoss({ profile, selectedYear, onYearChange }: Yearly
 
         <button
           onClick={toggleBalanceVisibility}
-          className="p-1.5 text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-white/5 rounded-lg transition-all duration-200"
+          className="p-1.5 text-slate-400 hover:text-[#00342b] dark:hover:text-[#94d3c1] hover:bg-[#f2f4f5] dark:hover:bg-white/5 rounded-lg transition-all duration-200"
         >
           {showBalances ? (
             <Eye className="h-4 w-4" />
@@ -236,10 +236,10 @@ export function YearlyProfitLoss({ profile, selectedYear, onYearChange }: Yearly
             const isCumulativeProfit = data.cumulativeProfit >= 0;
 
             return (
-              <div key={index} className="px-4 py-3 hover:bg-indigo-50/30 dark:hover:bg-white/[0.02] transition-colors">
+              <div key={index} className="px-4 py-3 hover:bg-[#f2f4f5]/30 dark:hover:bg-white/[0.02] transition-colors">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Calendar className="h-3.5 w-3.5 text-indigo-400 dark:text-indigo-500" />
+                    <Calendar className="h-3.5 w-3.5 text-[#29695b]/60 dark:text-[#94d3c1]/60" />
                     <span className="text-sm font-medium text-slate-900 dark:text-white">
                       {formatMonth(data.month)}
                     </span>

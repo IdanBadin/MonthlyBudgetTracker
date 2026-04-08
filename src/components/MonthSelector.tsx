@@ -106,7 +106,7 @@ export function MonthSelector({ selectedMonth, onChange, profile, minAllowedDate
       <div className="flex items-center gap-2 mb-3">
         <button
           onClick={handlePrevMonth}
-          className="p-1.5 rounded-lg hover:bg-indigo-50 dark:hover:bg-white/5 text-slate-500 dark:text-zinc-400 hover:text-indigo-500 transition-all duration-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+          className="p-1.5 rounded-lg hover:bg-[#f2f4f5] dark:hover:bg-white/5 text-[#3f4945] dark:text-zinc-400 hover:text-[#00342b] transition-all duration-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           disabled={isBefore(subMonths(selectedMonth, 1), earliestAllowedMonth)}
         >
           <PrevArrow className="h-4 w-4" />
@@ -120,14 +120,14 @@ export function MonthSelector({ selectedMonth, onChange, profile, minAllowedDate
 
         <button
           onClick={handleTodayClick}
-          className="px-2.5 py-1 text-xs font-medium bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-all duration-200 active:scale-95"
+          className="px-2.5 py-1 text-xs font-medium bg-[#f2f4f5] dark:bg-[#94d3c1]/10 text-[#00342b] dark:text-[#94d3c1] rounded-lg hover:bg-[#eceeef] dark:hover:bg-[#94d3c1]/20 transition-all duration-200 active:scale-95"
         >
           {t('common.today')}
         </button>
 
         <button
           onClick={handleNextMonth}
-          className="p-1.5 rounded-lg hover:bg-indigo-50 dark:hover:bg-white/5 text-slate-500 dark:text-zinc-400 hover:text-indigo-500 transition-all duration-200 cursor-pointer"
+          className="p-1.5 rounded-lg hover:bg-[#f2f4f5] dark:hover:bg-white/5 text-[#3f4945] dark:text-zinc-400 hover:text-[#00342b] transition-all duration-200 cursor-pointer"
         >
           <NextArrow className="h-4 w-4" />
         </button>

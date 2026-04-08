@@ -49,15 +49,15 @@ export function AuthForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-[#F8F7FF] dark:bg-[#09090B]">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#f8fafb] dark:bg-[#09090B]">
       <div className="w-full max-w-sm relative">
-        <div className="absolute w-96 h-96 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-full blur-3xl -top-20 left-1/2 -translate-x-1/2 pointer-events-none" />
+        <div className="absolute w-96 h-96 bg-[#00342b]/08 dark:bg-[#00342b]/20 rounded-full blur-3xl -top-20 left-1/2 -translate-x-1/2 pointer-events-none" />
 
         <div className="text-center mb-8 animate-fade-in-up">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-4 bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/25">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-4 bg-[#00342b] shadow-lg shadow-[#00342b]/25">
             <Wallet className="h-7 w-7 text-white" />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-1">
+          <h1 className="text-2xl font-bold font-manrope tracking-tight text-[#191c1d] dark:text-white mb-1">
             {isSignUp ? 'Create Account' : 'Welcome Back'}
           </h1>
           <p className="text-sm text-slate-500 dark:text-zinc-400">
@@ -86,7 +86,7 @@ export function AuthForm() {
           <form onSubmit={handleSubmit} className="space-y-3.5">
             {isSignUp && (
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-400/70 dark:text-indigo-400/50" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#29695b]/70 dark:text-[#94d3c1]/50" />
                 <input
                   type="text"
                   value={name}
@@ -99,7 +99,7 @@ export function AuthForm() {
             )}
 
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-400/70 dark:text-indigo-400/50" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#29695b]/70 dark:text-[#94d3c1]/50" />
               <input
                 type="email"
                 value={email}
@@ -111,7 +111,7 @@ export function AuthForm() {
             </div>
 
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-400/70 dark:text-indigo-400/50" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#29695b]/70 dark:text-[#94d3c1]/50" />
               <input
                 type="password"
                 value={password}
@@ -126,7 +126,7 @@ export function AuthForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98] cursor-pointer bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 text-white shadow-lg shadow-indigo-500/25"
+              className="w-full py-3 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98] cursor-pointer bg-gradient-to-r from-[#29695b] to-[#00342b] hover:from-[#004d40] hover:to-[#00342b] text-white shadow-lg shadow-[#00342b]/25"
             >
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -144,7 +144,7 @@ export function AuthForm() {
           {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
           <button
             onClick={() => setIsSignUp(!isSignUp)}
-            className="text-indigo-500 dark:text-indigo-400 font-semibold hover:text-indigo-600"
+            className="text-[#00342b] dark:text-[#94d3c1] font-semibold hover:text-[#004d40]"
           >
             {isSignUp ? 'Sign In' : 'Sign Up'}
           </button>

@@ -185,7 +185,7 @@ export function SettingsModal({ profile, onClose, onUpdate }: SettingsModalProps
               type="submit"
               form="settings-form"
               disabled={loading}
-              className="w-full py-2.5 bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 text-white rounded-xl text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-60 active:scale-[0.98] shadow-md shadow-indigo-500/25"
+              className="w-full py-2.5 bg-gradient-to-r from-[#29695b] to-[#00342b] hover:from-[#004d40] hover:to-[#00342b] text-white rounded-xl text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-60 active:scale-[0.98] shadow-md shadow-[#00342b]/25"
             >
               {loading ? (
                 <>
