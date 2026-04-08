@@ -102,7 +102,7 @@ export function TransactionForm({ onClose, onTransactionAdded, transaction, mode
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 animate-fade-in" dir={isRTL ? 'rtl' : 'ltr'} onClick={onClose}>
       <div className="glass-modal w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col animate-slide-up-mobile sm:animate-slide-in" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between px-5 py-4 border-b border-[#bfc9c4]/30 dark:border-white/8 shrink-0">
-          <h2 className="text-base font-semibold font-manrope tracking-tight text-[#191c1d] dark:text-white">
+          <h2 className="font-manrope text-lg font-extrabold tracking-tight text-[#191c1d] dark:text-white">
             {mode === 'edit' ? t('transaction.edit') : t('transaction.new')}
           </h2>
           <button onClick={onClose} className="p-2 text-[#707975] hover:text-[#3f4945] dark:hover:text-zinc-300 hover:bg-[#f2f4f5] dark:hover:bg-white/8 rounded-xl transition-all duration-200 cursor-pointer">
@@ -131,20 +131,25 @@ export function TransactionForm({ onClose, onTransactionAdded, transaction, mode
               ))}
             </div>
 
-            <div className="relative">
-              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#29695b]/60" />
-              <input
-                type="number"
-                step="0.01"
-                required
-                value={formData.amount}
-                onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                className="modern-input pl-10 text-lg font-semibold tracking-tight"
-                placeholder="0.00"
-              />
+            <div className="relative text-center mb-2">
+              <p className="text-xs font-bold text-[#3f4945] dark:text-zinc-400 uppercase tracking-widest mb-3">{t('transaction.amount_label') || 'סכום העסקה'}</p>
+              <div className="relative flex items-center justify-center gap-2">
+                <DollarSign className="h-6 w-6 text-[#00342b]/60 flex-shrink-0" />
+                <input
+                  type="number"
+                  step="0.01"
+                  required
+                  value={formData.amount}
+                  onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+                  className="w-full text-center text-4xl font-extrabold font-manrope bg-transparent border-none focus:ring-0 text-[#191c1d] dark:text-white placeholder:text-[#bfc9c4] outline-none"
+                  placeholder="0.00"
+                />
+              </div>
+              <div className="h-px bg-[#00342b]/20 dark:bg-white/10 mt-2" />
             </div>
 
             <div className="relative">
+              <p className="text-sm font-semibold text-[#191c1d] dark:text-white mb-2">{t('transaction.category_label') || 'קטגוריה'}</p>
               {showCustomCategoryInput ? (
                 <div className="relative">
                   <Tag className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 h-4 w-4 text-[#29695b]/60`} />
@@ -240,7 +245,7 @@ export function TransactionForm({ onClose, onTransactionAdded, transaction, mode
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98] cursor-pointer bg-gradient-to-r from-[#29695b] to-[#00342b] hover:from-[#004d40] hover:to-[#00342b] shadow-lg shadow-[#00342b]/20"
+              className="w-full py-4 rounded-2xl text-base font-bold font-manrope text-white transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.98] cursor-pointer bg-gradient-to-br from-[#00342b] to-[#004d40] shadow-xl shadow-[#00342b]/20 mt-4"
             >
               {loading ? (
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

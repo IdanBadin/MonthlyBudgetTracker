@@ -102,7 +102,7 @@ export function MonthSelector({ selectedMonth, onChange, profile, minAllowedDate
   const NextArrow = isRTL ? ChevronLeft : ChevronRight;
 
   return (
-    <div className="modern-card p-3 mb-4" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="bg-white dark:bg-zinc-900/50 rounded-3xl p-4 mb-4 shadow-[0_4px_16px_rgba(25,28,29,0.04)]" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="flex items-center gap-2 mb-3">
         <button
           onClick={handlePrevMonth}
@@ -120,7 +120,7 @@ export function MonthSelector({ selectedMonth, onChange, profile, minAllowedDate
 
         <button
           onClick={handleTodayClick}
-          className="px-2.5 py-1 text-xs font-medium bg-[#f2f4f5] dark:bg-[#94d3c1]/10 text-[#00342b] dark:text-[#94d3c1] rounded-lg hover:bg-[#eceeef] dark:hover:bg-[#94d3c1]/20 transition-all duration-200 active:scale-95"
+          className="px-3 py-1 text-xs font-semibold bg-[#f2f4f5] dark:bg-white/8 text-[#00342b] dark:text-[#94d3c1] rounded-full hover:bg-[#eceeef] transition-all duration-200 active:scale-95"
         >
           {t('common.today')}
         </button>
@@ -135,7 +135,7 @@ export function MonthSelector({ selectedMonth, onChange, profile, minAllowedDate
 
       <div
         ref={scrollRef}
-        className="flex items-center overflow-x-auto hide-scrollbar gap-1.5 pb-1"
+        className="flex items-center overflow-x-auto no-scrollbar gap-1.5 pb-1"
       >
         {months.map((date) => {
           const isSelected = format(date, 'yyyy-MM') === format(selectedMonth, 'yyyy-MM');
@@ -147,17 +147,16 @@ export function MonthSelector({ selectedMonth, onChange, profile, minAllowedDate
               ref={isSelected ? selectedButtonRef : null}
               onClick={() => onChange(date)}
               className={`
-                flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 active:scale-95
+                flex-shrink-0 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 active:scale-95
                 ${isSelected
-                  ? 'month-button-selected'
+                  ? 'bg-[#00342b] text-white shadow-lg shadow-[#00342b]/20'
                   : isToday
-                    ? 'month-button-today'
-                    : 'month-button-default'
+                    ? 'bg-[#f2f4f5] dark:bg-white/8 text-[#00342b] dark:text-[#94d3c1] border border-[#00342b]/20'
+                    : 'text-[#3f4945] dark:text-zinc-400 hover:bg-[#f2f4f5] dark:hover:bg-white/5'
                 }
               `}
             >
               <span>{formatMonthShort(date)}</span>
-              <span className="ml-1 opacity-60">{format(date, 'yy')}</span>
             </button>
           );
         })}

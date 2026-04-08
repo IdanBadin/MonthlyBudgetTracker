@@ -297,15 +297,15 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafb] dark:bg-[#111816] pb-20 sm:pb-6">
-      <div className="fixed top-0 left-0 right-0 z-30 modern-header">
+    <div className="min-h-screen bg-[#f8fafb] dark:bg-slate-950 pb-20 sm:pb-6">
+      <div className="fixed top-0 left-0 right-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-[#bfc9c4]/20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-14">
             <div className="flex items-center gap-2.5 min-w-0">
               <div className="h-8 w-8 rounded-xl flex items-center justify-center flex-shrink-0 bg-[#00342b] shadow-md shadow-[#00342b]/30">
                 <Wallet className="h-4 w-4 text-white" />
               </div>
-              <h1 className="text-sm font-semibold font-manrope text-[#191c1d] dark:text-white tracking-tight truncate">
+              <h1 className="text-sm font-semibold font-headline font-manrope text-[#191c1d] dark:text-white tracking-tight truncate">
                 {t('dashboard.financial_dashboard')}
               </h1>
             </div>
@@ -337,6 +337,11 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-4" style={{ paddingTop: 'calc(env(safe-area-inset-top) + 3.5rem + 1rem)' }}>
+        <div className="flex items-center justify-between mb-2">
+          <h1 className="text-2xl font-extrabold tracking-tight text-[#00342b] dark:text-[#94d3c1] font-manrope">
+            {t('dashboard.monthly_summary') || 'סיכום חודשי'}
+          </h1>
+        </div>
         <MonthSelector
           selectedMonth={selectedMonth}
           onChange={handleMonthChange}
@@ -373,34 +378,38 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
           </div>
         </div>
 
-        {/* Income + Expense Cards */}
-        <div className="grid grid-cols-2 gap-3 mb-4 content-fade-in">
+        {/* Income + Expense Cards - Stitch style */}
+        <div className="grid grid-cols-2 gap-4 mb-4 content-fade-in">
           <button
             onClick={() => setSelectedTransactionType('income')}
-            className="stat-card text-start cursor-pointer"
+            className="bg-white dark:bg-zinc-900 p-5 rounded-3xl shadow-[0_8px_24px_rgba(25,28,29,0.04)] flex flex-col justify-between h-36 text-start cursor-pointer hover:shadow-[0_8px_32px_rgba(25,28,29,0.08)] transition-all duration-200"
           >
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-xs font-medium text-slate-500 dark:text-zinc-400">{t('dashboard.total_income')}</p>
-              <div className="h-9 w-9 rounded-full bg-[#E8F8F6] dark:bg-[#4DB8AC]/15 flex items-center justify-center flex-shrink-0">
-                <TrendingDown className="h-4 w-4 text-[#4DB8AC]" />
+            <div className="flex justify-between items-start">
+              <div className="w-10 h-10 rounded-2xl bg-[#8bf1e6] dark:bg-[#8bf1e6]/20 flex items-center justify-center">
+                <TrendingDown className="h-5 w-5 text-[#006f67]" />
               </div>
+              <span className="text-[10px] font-bold text-[#006a63] uppercase tracking-tighter">{t('dashboard.total_income') || 'הכנסות'}</span>
             </div>
-            <p className="text-xl font-bold tracking-tight text-[#00695C] dark:text-[#4DB8AC]" style={{ fontVariantNumeric: 'tabular-nums' }}>{formatBalanceDisplay(totalIncome)}</p>
-            <p className="text-[10px] text-slate-400 dark:text-zinc-600 mt-0.5">{t('dashboard.this_month')}</p>
+            <div>
+              <div className="text-xl font-bold font-manrope text-[#191c1d] dark:text-white" style={{ fontVariantNumeric: 'tabular-nums' }}>{formatBalanceDisplay(totalIncome)}</div>
+              <div className="text-[10px] text-[#3f4945] dark:text-zinc-400 font-medium mt-0.5">{t('dashboard.this_month')}</div>
+            </div>
           </button>
 
           <button
             onClick={() => setSelectedTransactionType('expense')}
-            className="stat-card text-start cursor-pointer"
+            className="bg-white dark:bg-zinc-900 p-5 rounded-3xl shadow-[0_8px_24px_rgba(25,28,29,0.04)] flex flex-col justify-between h-36 text-start cursor-pointer hover:shadow-[0_8px_32px_rgba(25,28,29,0.08)] transition-all duration-200"
           >
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-xs font-medium text-slate-500 dark:text-zinc-400">{t('dashboard.total_expenses')}</p>
-              <div className="h-9 w-9 rounded-full bg-[#FFEBEB] dark:bg-[#E57373]/15 flex items-center justify-center flex-shrink-0">
-                <TrendingUp className="h-4 w-4 text-[#E57373]" />
+            <div className="flex justify-between items-start">
+              <div className="w-10 h-10 rounded-2xl bg-[#ffdad6] dark:bg-[#ffdad6]/20 flex items-center justify-center">
+                <TrendingUp className="h-5 w-5 text-[#93000a]" />
               </div>
+              <span className="text-[10px] font-bold text-[#5e0c14] dark:text-rose-400 uppercase tracking-tighter">{t('dashboard.total_expenses') || 'הוצאות'}</span>
             </div>
-            <p className="text-xl font-bold tracking-tight text-[#C62828] dark:text-[#E57373]" style={{ fontVariantNumeric: 'tabular-nums' }}>{formatBalanceDisplay(totalExpenses)}</p>
-            <p className="text-[10px] text-slate-400 dark:text-zinc-600 mt-0.5">{t('dashboard.this_month')}</p>
+            <div>
+              <div className="text-xl font-bold font-manrope text-[#191c1d] dark:text-white" style={{ fontVariantNumeric: 'tabular-nums' }}>{formatBalanceDisplay(totalExpenses)}</div>
+              <div className="text-[10px] text-[#3f4945] dark:text-zinc-400 font-medium mt-0.5">{t('dashboard.this_month')}</div>
+            </div>
           </button>
         </div>
 
@@ -455,6 +464,23 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
               {formatBalanceDisplay(Math.abs(monthlyProfitLoss))}
             </p>
             <p className="text-[10px] text-slate-400 dark:text-zinc-600 mt-0.5">{t('dashboard.this_month')}</p>
+          </div>
+        </div>
+
+        {/* Expense breakdown chart - Stitch style */}
+        <div className="bg-[#f2f4f5] dark:bg-zinc-900/50 rounded-3xl p-5 mb-4">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-base font-bold text-[#00342b] dark:text-[#94d3c1] font-manrope">{t('analysis.expense_breakdown') || 'פילוח הוצאות'}</h2>
+            <span className="text-xs font-semibold text-[#3f4945] dark:text-zinc-400">{t('common.this_month') || 'החודש'}</span>
+          </div>
+          <div className="flex items-end justify-between h-16 gap-1.5">
+            {[40, 65, 90, 55, 75, 35, 80].map((h, i) => (
+              <div
+                key={i}
+                className={`flex-1 rounded-t-lg transition-all ${i === 2 ? 'bg-[#00342b] dark:bg-[#94d3c1]' : 'bg-[#e1e3e4] dark:bg-zinc-700'}`}
+                style={{ height: `${h}%` }}
+              />
+            ))}
           </div>
         </div>
 
@@ -513,6 +539,9 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
           <TransactionListSkeleton count={5} />
         ) : (
           <>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-bold text-[#00342b] dark:text-[#94d3c1] font-manrope">{t('dashboard.recent_transactions') || 'פעולות אחרונות'}</h2>
+            </div>
             <TransactionList
               transactions={filteredTransactions}
               onTransactionUpdated={fetchTransactions}
@@ -533,28 +562,29 @@ export function Dashboard({ profile, onProfileUpdate }: DashboardProps) {
         )}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 sm:hidden z-40">
-        <div className="mx-4 mb-4 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-2xl border border-[#bfc9c4]/30 rounded-2xl shadow-xl shadow-black/10 dark:shadow-black/40" style={{ WebkitBackdropFilter: 'blur(40px) saturate(1.3)', backdropFilter: 'blur(40px) saturate(1.3)' }}>
-          <div className="flex items-center justify-around h-14 px-2">
-            <button className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl bg-[#f2f4f5] dark:bg-[#94d3c1]/10 text-[#00342b] dark:text-[#94d3c1]">
+      {/* Mobile Bottom Navigation - Stitch style 4 items */}
+      <nav className="fixed bottom-0 left-0 right-0 sm:hidden z-40">
+        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-t-3xl shadow-[0_-8px_24px_rgba(25,28,29,0.04)] border-t border-[#bfc9c4]/20">
+          <div className="flex items-center justify-around px-4 pb-6 pt-2">
+            <button className="flex flex-col items-center justify-center bg-emerald-50 dark:bg-emerald-900/30 text-[#00342b] dark:text-emerald-100 rounded-2xl px-4 py-2 cursor-pointer">
               <LayoutDashboard className="h-5 w-5" />
-              <span className="text-[10px] font-medium">{t('dashboard.title_short')}</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">Home</span>
             </button>
-            <Link to="/analysis" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl text-[#707975] dark:text-zinc-500 hover:text-[#3f4945] dark:hover:text-zinc-300 transition-colors cursor-pointer">
+            <Link to="/analysis" className="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-[#00342b] dark:hover:text-emerald-300 transition-colors cursor-pointer">
               <BarChart3 className="h-5 w-5" />
-              <span className="text-[10px] font-medium">{t('analysis.title')}</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">Insights</span>
             </Link>
-            <button onClick={() => setIsSettingsOpen(true)} className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl text-[#707975] dark:text-zinc-500 hover:text-[#3f4945] dark:hover:text-zinc-300 transition-colors cursor-pointer">
-              <Settings className="h-5 w-5" />
-              <span className="text-[10px] font-medium">{t('settings.title')}</span>
+            <button onClick={() => setIsFormOpen(true)} className="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-[#00342b] dark:hover:text-emerald-300 transition-colors cursor-pointer">
+              <PlusCircle className="h-5 w-5" />
+              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">Add</span>
             </button>
-            <button onClick={handleSignOut} className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl text-[#707975] dark:text-zinc-500 hover:text-[#3f4945] dark:hover:text-zinc-300 transition-colors cursor-pointer">
-              <LogOut className="h-5 w-5" />
-              <span className="text-[10px] font-medium">{t('common.sign_out')}</span>
+            <button onClick={() => setIsSettingsOpen(true)} className="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-[#00342b] dark:hover:text-emerald-300 transition-colors cursor-pointer">
+              <Settings className="h-5 w-5" />
+              <span className="text-[10px] font-semibold uppercase tracking-wider mt-1">Settings</span>
             </button>
           </div>
         </div>
-      </div>
+      </nav>
 
       {isFormOpen && (
         <TransactionForm onClose={() => setIsFormOpen(false)} onTransactionAdded={fetchTransactions} profile={profile} />

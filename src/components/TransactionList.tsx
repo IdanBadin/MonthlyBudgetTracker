@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { format } from 'date-fns';
-import { Trash2, Pencil, Inbox } from 'lucide-react';
+import { Trash2, Pencil, Inbox, TrendingDown, TrendingUp } from 'lucide-react';
 import { Transaction, Profile } from '../types/database';
 import { supabase } from '../lib/supabase';
 import { TransactionForm } from './TransactionForm';
@@ -65,76 +65,77 @@ export function TransactionList({ transactions, onTransactionUpdated, profile, s
 
   if (transactions.length === 0) {
     return (
-      <div className="glass-card p-10 text-center">
-        <div className="w-12 h-12 rounded-2xl bg-[#f2f4f5] dark:bg-[#94d3c1]/10 flex items-center justify-center mx-auto mb-4">
-          <Inbox className="w-6 h-6 text-[#29695b] dark:text-[#94d3c1]" />
+      <div className="text-center py-16 px-6">
+        <div className="w-16 h-16 rounded-3xl bg-[#f2f4f5] dark:bg-[#94d3c1]/10 flex items-center justify-center mx-auto mb-4">
+          <Inbox className="w-7 h-7 text-[#29695b] dark:text-[#94d3c1]" />
         </div>
-        <p className="text-slate-700 dark:text-zinc-300 text-sm font-semibold">No transactions found</p>
-        <p className="text-slate-400 dark:text-zinc-500 text-xs mt-1">Add a new transaction to get started</p>
+        <p className="text-[#191c1d] dark:text-zinc-300 text-sm font-bold font-manrope">No transactions found</p>
+        <p className="text-[#707975] dark:text-zinc-500 text-xs mt-1">Add a new transaction to get started</p>
       </div>
     );
   }
 
   return (
     <>
-      <div className="glass-card overflow-hidden">
-        <div className="divide-y divide-slate-100/80 dark:divide-white/5">
-          {transactionsWithBalance.map((transaction) => {
+      <div className="space-y-0">
+        {transactionsWithBalance.map((transaction) => {
             const textIsRTL = containsRTL(transaction.description);
 
             return (
               <div
                 key={transaction.id}
-                className="px-4 py-3.5 transition-all duration-150 hover:bg-[#f2f4f5]/30 dark:hover:bg-white/[0.02] cursor-default"
+                className="flex items-center p-4 bg-white dark:bg-zinc-900 rounded-2xl shadow-[0_4px_12px_rgba(25,28,29,0.02)] dark:shadow-none mb-2 mx-1 hover:shadow-[0_4px_16px_rgba(25,28,29,0.06)] transition-all duration-200"
               >
-                <div className="flex items-start gap-3">
-                  <div className={`w-1 h-full min-h-[44px] rounded-full flex-shrink-0 mt-0.5 ${
-                    transaction.type === 'income' ? 'bg-emerald-400' : 'bg-rose-400'
-                  }`} />
+                {/* Category icon container */}
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ml-4 ${
+                  transaction.type === 'income'
+                    ? 'bg-[#8bf1e6]/30 text-[#006a63]'
+                    : 'bg-[#e6e8e9] dark:bg-white/8 text-[#00342b] dark:text-[#94d3c1]'
+                }`}>
+                  {transaction.type === 'income'
+                    ? <TrendingDown className="h-5 w-5" />
+                    : <TrendingUp className="h-5 w-5" />
+                  }
+                </div>
 
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-baseline justify-between gap-2 mb-0.5">
-                      <p
-                        className="text-sm font-medium text-slate-800 dark:text-white leading-tight truncate"
-                        style={{
-                          direction: textIsRTL ? 'rtl' : 'ltr',
-                          textAlign: textIsRTL ? 'right' : 'left',
-                          unicodeBidi: 'isolate',
-                        }}
-                      >
-                        {transaction.description}
-                      </p>
-                      <span className={`text-sm font-semibold flex-shrink-0 tracking-tight ${
-                        transaction.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
-                      }`} dir="ltr">
-                        {transaction.type === 'income' ? '+' : '-'}{formatCurrency(Number(transaction.amount))}
-                      </span>
-                    </div>
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <p
+                    className="font-bold text-[#191c1d] dark:text-white text-sm leading-tight truncate"
+                    style={{
+                      direction: textIsRTL ? 'rtl' : 'ltr',
+                      textAlign: textIsRTL ? 'right' : 'left',
+                      unicodeBidi: 'isolate',
+                    }}
+                  >
+                    {transaction.description}
+                  </p>
+                  <p className="text-[11px] text-[#3f4945] dark:text-zinc-500 mt-0.5">
+                    {format(new Date(transaction.date), 'dd/MM/yy')} • {(() => {
+                      const categoryKey = formatCategoryKey(transaction.category);
+                      const translatedCategory = t(`categories.${categoryKey}`);
+                      return translatedCategory === `categories.${categoryKey}` ? transaction.category : translatedCategory;
+                    })()}
+                  </p>
+                </div>
 
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <span className="text-[11px] text-slate-400 dark:text-zinc-600">
-                          {format(new Date(transaction.date), 'dd/MM/yy')}
-                        </span>
-                        <span className="inline-flex px-2 py-0.5 rounded-md text-[10px] font-medium bg-[#f2f4f5] dark:bg-[#94d3c1]/10 text-[#29695b] dark:text-[#94d3c1] truncate max-w-[100px]">
-                          {(() => {
-                            const categoryKey = formatCategoryKey(transaction.category);
-                            const translatedCategory = t(`categories.${categoryKey}`);
-                            return translatedCategory === `categories.${categoryKey}` ? transaction.category : translatedCategory;
-                          })()}
-                        </span>
-                      </div>
-                      <span className={`text-[11px] font-semibold tracking-tight ${
-                        transaction.runningBalance >= 0
-                          ? 'text-[#006a63] dark:text-[#71d7cd]'
-                          : 'text-rose-500 dark:text-rose-400'
-                      }`} dir="ltr">
-                        {formatCurrency(transaction.runningBalance)}
-                      </span>
-                    </div>
+                {/* Amount + actions */}
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <div className="text-right">
+                    <span className={`font-bold font-manrope text-sm ${
+                      transaction.type === 'income' ? 'text-[#006a63] dark:text-[#4DB8AC]' : 'text-[#5e0c14] dark:text-rose-400'
+                    }`} dir="ltr">
+                      {transaction.type === 'income' ? '+' : '-'}{formatCurrency(Number(transaction.amount))}
+                    </span>
+                    <p className={`text-[10px] font-semibold ${
+                      transaction.runningBalance >= 0
+                        ? 'text-[#006a63] dark:text-[#71d7cd]'
+                        : 'text-rose-500 dark:text-rose-400'
+                    }`} dir="ltr">
+                      {formatCurrency(transaction.runningBalance)}
+                    </p>
                   </div>
-
-                  <div className="flex items-center gap-0.5 flex-shrink-0 mt-0.5">
+                  <div className="flex items-center gap-0.5">
                     <button
                       onClick={() => setEditingTransaction(transaction)}
                       className="p-1.5 text-[#bfc9c4] dark:text-zinc-600 hover:text-[#00342b] dark:hover:text-[#94d3c1] hover:bg-[#f2f4f5] dark:hover:bg-[#94d3c1]/10 rounded-lg transition-all duration-150 cursor-pointer"
@@ -153,7 +154,6 @@ export function TransactionList({ transactions, onTransactionUpdated, profile, s
               </div>
             );
           })}
-        </div>
       </div>
 
       {editingTransaction && (
